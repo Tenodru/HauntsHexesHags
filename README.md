@@ -1,2 +1,2 @@
 # HauntsHexesHags
-Co-op indie game development
+we love casting spells
