@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] PlayerCharacter character;
+
     [Header("Movement")]
     public float moveSpeed;
     float horizontalMovement;
@@ -39,6 +42,11 @@ public class PlayerController : MonoBehaviour
     /// <param name="context"></param>
     public void Move(InputAction.CallbackContext context)
     {
+        if (character != GlobalPlayerManager.instance.localPlayer.character)
+        {
+            return;
+        }
+
         horizontalInput = context.ReadValue<Vector2>().x;
     }
 
@@ -48,6 +56,11 @@ public class PlayerController : MonoBehaviour
     /// <param name="context"></param>
     public void Jump(InputAction.CallbackContext context)
     {
+        if (character != GlobalPlayerManager.instance.localPlayer.character)
+        {
+            return;
+        }
+
         // Makes the player jump if jump key is pressed and player is grounded
         if (context.performed && IsGrounded())
         {
