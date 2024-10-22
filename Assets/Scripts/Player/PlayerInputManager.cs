@@ -3,31 +3,48 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.TextCore.Text;
 
-[Obsolete("Class currently unused.")]
 public class PlayerInputManager : MonoBehaviour
 {
     public static Vector2 movement;
 
     private PlayerInput playerInput;
-    private InputAction moveAction;
-    private InputAction jumpAction;
+    private PlayerController playerController;
 
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
-
-        moveAction = playerInput.actions["Move"];
-        jumpAction = playerInput.actions["Jump"];
+        playerController = GetComponent<PlayerController>();
     }
 
     private void Update()
     {
-        movement = moveAction.ReadValue<Vector2>();
+        
     }
 
     private void FixedUpdate()
     {
-        //Debug.Log("Jump Button pressed?" + jumpAction);
+        
+    }
+
+    public void Move(InputAction.CallbackContext context)
+    {
+        playerController.Move(context);
+    }
+
+
+    public void Jump(InputAction.CallbackContext context)
+    {
+        playerController.Jump(context);
+    }
+
+    public void Pause(InputAction.CallbackContext context)
+    {
+        if (playerController.GetPlayerCharacter() != GlobalPlayerManager.instance.localPlayer.character)
+        {
+            return;
+        }
+        PauseMenu.instance.Pause(context);
     }
 }

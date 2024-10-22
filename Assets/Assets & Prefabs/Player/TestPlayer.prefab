@@ -80,6 +80,7 @@ GameObject:
   - component: {fileID: 3718696628382721422}
   - component: {fileID: 681732736927760537}
   - component: {fileID: 1770420480940525317}
+  - component: {fileID: 9083454256338546977}
   - component: {fileID: 2613293415425197530}
   m_Layer: 0
   m_Name: TestPlayer
@@ -245,8 +246,8 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2613293415425197530}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+      - m_Target: {fileID: 9083454256338546977}
+        m_TargetAssemblyTypeName: PlayerInputManager, Assembly-CSharp
         m_MethodName: Move
         m_Mode: 0
         m_Arguments:
@@ -261,8 +262,8 @@ MonoBehaviour:
     m_ActionName: Player/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2613293415425197530}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+      - m_Target: {fileID: 9083454256338546977}
+        m_TargetAssemblyTypeName: PlayerInputManager, Assembly-CSharp
         m_MethodName: Jump
         m_Mode: 0
         m_Arguments:
@@ -275,11 +276,39 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 375cab80-9219-48ed-9016-7822a07773a6
     m_ActionName: Player/Jump[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 9083454256338546977}
+        m_TargetAssemblyTypeName: PlayerInputManager, Assembly-CSharp
+        m_MethodName: Pause
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: cafcc956-a0c9-412d-9d59-3e78b5fb82a6
+    m_ActionName: Player/Pause[/Keyboard/escape]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &9083454256338546977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8380931437843148852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86b89e079e46df7429a2025256dcd982, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2613293415425197530
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -292,6 +321,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 249efd5166e43244cac2f5ffe632c927, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  character: 0
   moveSpeed: 5
   jumpPower: 7.5
   groundCheck: {fileID: 4561727740752651920}

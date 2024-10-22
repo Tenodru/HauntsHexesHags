@@ -86,4 +86,9 @@ public class PlayerController : MonoBehaviour
     {
         return Physics2D.OverlapCircle(groundCheck.position, groundCheckCollider.radius, groundLayer);
     }
+
+    public PlayerCharacter GetPlayerCharacter()
+    {
+        return character;
+    }
 }
