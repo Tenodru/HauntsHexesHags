@@ -7,6 +7,12 @@ using UnityEngine.TextCore.Text;
 
 public class PlayerInputManager : MonoBehaviour
 {
+    [Tooltip("The PlayerCharacter associated with this player.")]
+    [SerializeField] PlayerCharacter character;
+
+    [Tooltip("The pause menu object associated with this character.")]
+    [SerializeField] PauseMenu pauseMenu;
+
     public static Vector2 movement;
 
     private PlayerInput playerInput;
@@ -30,21 +36,37 @@ public class PlayerInputManager : MonoBehaviour
 
     public void Move(InputAction.CallbackContext context)
     {
+        if (character != GlobalPlayerManager.instance.localPlayer.character)
+        {
+            return;
+        }
+
         playerController.Move(context);
     }
 
 
     public void Jump(InputAction.CallbackContext context)
     {
+        if (character != GlobalPlayerManager.instance.localPlayer.character)
+        {
+            return;
+        }
+
         playerController.Jump(context);
     }
 
     public void Pause(InputAction.CallbackContext context)
     {
-        if (playerController.GetPlayerCharacter() != GlobalPlayerManager.instance.localPlayer.character)
+        if (character != GlobalPlayerManager.instance.localPlayer.character)
         {
             return;
         }
-        PauseMenu.instance.Pause(context);
+
+        pauseMenu.Pause(context);
+    }
+
+    public PlayerCharacter GetPlayerCharacter()
+    {
+        return character;
     }
 }

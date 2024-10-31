@@ -6,8 +6,6 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] PlayerCharacter character;
-
     [Header("Movement")]
     public float moveSpeed;
     float horizontalMovement;
@@ -42,11 +40,6 @@ public class PlayerController : MonoBehaviour
     /// <param name="context"></param>
     public void Move(InputAction.CallbackContext context)
     {
-        if (character != GlobalPlayerManager.instance.localPlayer.character)
-        {
-            return;
-        }
-
         horizontalInput = context.ReadValue<Vector2>().x;
     }
 
@@ -56,11 +49,6 @@ public class PlayerController : MonoBehaviour
     /// <param name="context"></param>
     public void Jump(InputAction.CallbackContext context)
     {
-        if (character != GlobalPlayerManager.instance.localPlayer.character)
-        {
-            return;
-        }
-
         // Makes the player jump if jump key is pressed and player is grounded
         if (context.performed && IsGrounded())
         {
@@ -85,10 +73,5 @@ public class PlayerController : MonoBehaviour
     private bool IsGrounded()
     {
         return Physics2D.OverlapCircle(groundCheck.position, groundCheckCollider.radius, groundLayer);
-    }
-
-    public PlayerCharacter GetPlayerCharacter()
-    {
-        return character;
     }
 }

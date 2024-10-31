@@ -10,4 +10,5 @@ using UnityEngine;
 public class PlayerCharacterData : ScriptableObject
 {
     public PlayerCharacter character;
+    public PauseMenu pauseMenu;
 }

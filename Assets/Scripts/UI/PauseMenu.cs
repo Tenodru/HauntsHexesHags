@@ -5,20 +5,18 @@ using UnityEngine.InputSystem;
 
 public class PauseMenu : MonoBehaviour
 {
-    public static PauseMenu instance;
-
+    [Tooltip("The pause menu gameObject.")]
     [SerializeField] RectTransform pauseMenu;
 
     private void Awake()
     {
-        if (instance != null && instance != this)
-        {
-            Destroy(this);
-        }
-        else
-        {
-            instance = this;
-        }
+        
+    }
+
+    private void Start()
+    {
+        Debug.Log("Disabling pause menu on start");
+        this.gameObject.SetActive(false);
     }
 
     public void Pause(InputAction.CallbackContext context)
