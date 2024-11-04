@@ -18,7 +18,6 @@ public class SteamLobby : MonoBehaviour
     private CustomNetworkManager manager;
 
     //GameObjects
-    public GameObject HostButton;
     public TextMeshProUGUI LobbyNameText;
 
     private void Start()
@@ -42,6 +41,8 @@ public class SteamLobby : MonoBehaviour
 
         SteamMatchmaking.SetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), HostAddressKey, SteamUser.GetSteamID().ToString());
         SteamMatchmaking.SetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), "name", SteamFriends.GetPersonaName().ToString() + "'s Lobby");
+
+        Debug.Log("Lobby ID: " + new CSteamID(callback.m_ulSteamIDLobby));
     }
 
     private void OnJoinRequest(GameLobbyJoinRequested_t callback)

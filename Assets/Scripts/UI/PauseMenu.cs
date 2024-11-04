@@ -2,11 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
 {
     [Tooltip("The pause menu gameObject.")]
     [SerializeField] RectTransform pauseMenu;
+
+    [Tooltip("The host lobby button.")]
+    [SerializeField] Button hostLobbyButton;
+
+    [Tooltip("The join lobby button.")]
+    [SerializeField] Button joinLobbyButton;
 
     private void Awake()
     {
@@ -35,5 +42,15 @@ public class PauseMenu : MonoBehaviour
                 pauseMenu.gameObject.SetActive(true);
             }
         }
+    }
+
+    public void HideHostLobbyButton()
+    {
+        hostLobbyButton.gameObject.SetActive(false);
+    }
+
+    public void ShowHostLobbyButton()
+    {
+        hostLobbyButton.gameObject.SetActive(true);
     }
 }
