@@ -7,6 +7,10 @@ using TMPro;
 
 public class SteamLobby : MonoBehaviour
 {
+    public static SteamLobby instance;
+
+    [SerializeField] TextMeshProUGUI lobbyDisplay;
+
     // Callbacks
     protected Callback<LobbyCreated_t> LobbyCreated;
     protected Callback<GameLobbyJoinRequested_t> JoinRequest;
@@ -19,6 +23,18 @@ public class SteamLobby : MonoBehaviour
 
     //GameObjects
     public TextMeshProUGUI LobbyNameText;
+
+    private void Awake()
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            instance = this;
+        }
+    }
 
     private void Start()
     {
@@ -64,11 +80,19 @@ public class SteamLobby : MonoBehaviour
 
         manager.networkAddress = SteamMatchmaking.GetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), HostAddressKey);
         manager.StartClient();
+
+        lobbyDisplay.text = "Lobby: " + callback.m_ulSteamIDLobby;
     }
 
     public void HostLobby()
     {
         SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypeFriendsOnly, manager.maxConnections);
+    }
+
+    public void JoinLobby(ulong lobbyID)
+    {
+        //string hostAddress = SteamMatchmaking.GetLobbyData(new CSteamID(lobbyID), )
+        SteamMatchmaking.JoinLobby(new CSteamID(lobbyID));
     }
 }
 
