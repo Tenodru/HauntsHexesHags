@@ -4,6 +4,7 @@ using UnityEngine;
 using Mirror;
 using Steamworks;
 using TMPro;
+using Edgegap;
 
 public class SteamLobby : MonoBehaviour
 {
@@ -17,12 +18,13 @@ public class SteamLobby : MonoBehaviour
     protected Callback<LobbyEnter_t> LobbyEntered;
 
     // Variables
-    public ulong LobbyId;
     private const string HostAddressKey = "HostAddress";
     private CustomNetworkManager manager;
 
     //GameObjects
     public TextMeshProUGUI LobbyNameText;
+
+    private ulong currentLobbyID;
 
     private void Awake()
     {
@@ -54,6 +56,7 @@ public class SteamLobby : MonoBehaviour
         Debug.Log("Lobby created successfully!");
 
         manager.StartHost();
+        manager.networkState = NetworkState.Host;
 
         SteamMatchmaking.SetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), HostAddressKey, SteamUser.GetSteamID().ToString());
         SteamMatchmaking.SetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), "name", SteamFriends.GetPersonaName().ToString() + "'s Lobby");
@@ -73,6 +76,8 @@ public class SteamLobby : MonoBehaviour
     {
         // For everyone who enters lobby, including host
         Debug.Log("POG");
+        currentLobbyID = callback.m_ulSteamIDLobby;
+        MainMenu.instance.ChangeLobbyIDDisplay(currentLobbyID);
 
 
         // For client ONLY
@@ -80,8 +85,9 @@ public class SteamLobby : MonoBehaviour
 
         manager.networkAddress = SteamMatchmaking.GetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), HostAddressKey);
         manager.StartClient();
+        manager.networkState = NetworkState.Client;
 
-        lobbyDisplay.text = "Lobby: " + callback.m_ulSteamIDLobby;
+        //lobbyDisplay.text = "Lobby: " + callback.m_ulSteamIDLobby;
     }
 
     public void HostLobby()
@@ -93,6 +99,19 @@ public class SteamLobby : MonoBehaviour
     {
         //string hostAddress = SteamMatchmaking.GetLobbyData(new CSteamID(lobbyID), )
         SteamMatchmaking.JoinLobby(new CSteamID(lobbyID));
+    }
+
+    public void LeaveLobby()
+    {
+        Debug.Log("Leaving current lobby: " + currentLobbyID);
+        SteamMatchmaking.LeaveLobby(new CSteamID(currentLobbyID));
+
+        manager.Disconnect();
+    }
+
+    public ulong GetLobbyID()
+    {
+        return currentLobbyID;
     }
 }
 
