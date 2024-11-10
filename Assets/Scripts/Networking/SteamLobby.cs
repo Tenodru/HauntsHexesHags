@@ -99,6 +99,7 @@ public class SteamLobby : MonoBehaviour
     {
         //string hostAddress = SteamMatchmaking.GetLobbyData(new CSteamID(lobbyID), )
         SteamMatchmaking.JoinLobby(new CSteamID(lobbyID));
+        MainMenu.instance.EnterLobbyScreen();
     }
 
     public void LeaveLobby()
