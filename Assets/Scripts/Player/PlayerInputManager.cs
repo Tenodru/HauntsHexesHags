@@ -36,7 +36,7 @@ public class PlayerInputManager : MonoBehaviour
 
     public void Move(InputAction.CallbackContext context)
     {
-        if (character != GlobalPlayerManager.instance.localPlayer.character)
+        if (character != LocalPlayerManager.instance.localPlayer.character)
         {
             return;
         }
@@ -47,7 +47,7 @@ public class PlayerInputManager : MonoBehaviour
 
     public void Jump(InputAction.CallbackContext context)
     {
-        if (character != GlobalPlayerManager.instance.localPlayer.character)
+        if (character != LocalPlayerManager.instance.localPlayer.character)
         {
             return;
         }
@@ -57,7 +57,7 @@ public class PlayerInputManager : MonoBehaviour
 
     public void Pause(InputAction.CallbackContext context)
     {
-        if (character != GlobalPlayerManager.instance.localPlayer.character)
+        if (character != LocalPlayerManager.instance.localPlayer.character)
         {
             return;
         }

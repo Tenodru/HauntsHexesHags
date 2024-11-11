@@ -10,12 +10,13 @@ public class CustomNetworkManager : NetworkManager
     public NetworkState networkState = NetworkState.None;
     public int maxPlayers = 2;
 
-    private int lastPlayerID = 0;
     private bool localPlayerSet = false;
 
     public override void OnClientConnect()
     {
         base.OnClientConnect();
+        if (networkState == NetworkState.Host) { return;  }
+
         Debug.Log("Client connecting!");
         Debug.Log("numPlayers: " + numPlayers);
 
@@ -24,18 +25,19 @@ public class CustomNetworkManager : NetworkManager
             SteamLobby.instance.isLobbyFull = true;
         }
 
-        lastPlayerID++;
+        
         if (!localPlayerSet)
         {
             Debug.Log("Adding local player to playerList");
-            GlobalPlayerManager.instance.localPlayer = new Player(lastPlayerID);
+            LocalPlayerManager.instance.localPlayer = new Player(GlobalPlayerManager.instance.lastPlayerID);
             localPlayerSet = true;
-            GlobalPlayerManager.instance.playerList.Add(new Player(lastPlayerID));
+            GlobalPlayerManager.instance.playerList.Add(new Player(GlobalPlayerManager.instance.lastPlayerID));
         }
     }
 
     public override void OnServerConnect(NetworkConnectionToClient conn)
     {
+        // Called before OnClientConnect() on host
         base.OnServerConnect(conn);
         Debug.Log("Client connecting to server!");
         Debug.Log("numPlayers: " + numPlayers);
@@ -45,8 +47,9 @@ public class CustomNetworkManager : NetworkManager
             SteamLobby.instance.isLobbyFull = true;
         }
 
-        Debug.Log("Adding outside player to playerList");
-        GlobalPlayerManager.instance.playerList.Add(new Player(lastPlayerID, NetworkClient.connection.connectionId));
+        Debug.Log("Adding player to playerList");
+        GlobalPlayerManager.instance.lastPlayerID++;
+        GlobalPlayerManager.instance.playerList.Add(new Player(GlobalPlayerManager.instance.lastPlayerID, NetworkClient.connection.connectionId));
     }
 
     public override void OnServerDisconnect(NetworkConnectionToClient conn)
@@ -54,12 +57,12 @@ public class CustomNetworkManager : NetworkManager
         base.OnServerDisconnect(conn);
         Debug.Log("Client disconnecting from this server!");
 
-        GlobalPlayerManager.instance.RemovePlayer(GlobalPlayerManager.instance.localPlayer);
+        GlobalPlayerManager.instance.RemovePlayer(LocalPlayerManager.instance.localPlayer);
     }
 
     public void Disconnect()
     {
-        GlobalPlayerManager.instance.RemovePlayer(GlobalPlayerManager.instance.localPlayer);
+        GlobalPlayerManager.instance.RemovePlayer(LocalPlayerManager.instance.localPlayer);
         if (networkState == NetworkState.Host)
         {
             Debug.Log("Disconnecting host.");

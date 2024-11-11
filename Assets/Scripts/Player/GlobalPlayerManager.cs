@@ -7,10 +7,10 @@ public class GlobalPlayerManager : NetworkBehaviour
 {
     public static GlobalPlayerManager instance;
 
-    public Player localPlayer;
-    public Player guestPlayer;
-
     [SyncVar] public List<Player> playerList;
+
+    public int numPlayers = 0;
+    public int lastPlayerID = 0;
 
     private void Awake()
     {

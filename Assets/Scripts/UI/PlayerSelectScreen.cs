@@ -6,7 +6,7 @@ public class PlayerSelectScreen : MonoBehaviour
 {
     public void SelectCharacter(PlayerCharacterData charData)
     {
-        GlobalPlayerManager.instance.localPlayer.ChangePlayerCharacter(charData.character);
+        LocalPlayerManager.instance.localPlayer.ChangePlayerCharacter(charData.character);
         this.gameObject.SetActive(false);
     }
 }
