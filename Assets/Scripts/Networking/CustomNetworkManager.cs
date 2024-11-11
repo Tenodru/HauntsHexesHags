@@ -7,8 +7,8 @@ public class CustomNetworkManager : NetworkManager
 {
     [Header ("Game-specific Variables")]
     public NetworkState networkState = NetworkState.None;
-    public int playerCount = 1;
     public int maxPlayers = 2;
+    [SyncVar] public int playerCount = 0;
 
     public override void OnClientConnect()
     {
@@ -20,6 +20,13 @@ public class CustomNetworkManager : NetworkManager
         {
             SteamLobby.instance.isLobbyFull = true;
         }
+    }
+
+    public override void OnServerConnect(NetworkConnectionToClient conn)
+    {
+        base.OnServerConnect(conn);
+        Debug.Log("Client connecting to server!");
+        playerCount += 1;
     }
 
     public void Disconnect()
