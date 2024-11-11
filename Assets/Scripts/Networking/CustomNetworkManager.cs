@@ -25,8 +25,6 @@ public class CustomNetworkManager : NetworkManager
         }
 
         lastPlayerID++;
-        
-
         if (!localPlayerSet)
         {
             GlobalPlayerManager.instance.localPlayer = new Player(lastPlayerID);
