@@ -29,8 +29,11 @@ public class CustomNetworkManager : NetworkManager
         if (!localPlayerSet)
         {
             Debug.Log("Adding local player to playerList");
+
+            GlobalPlayerManager.instance.lastPlayerID++;
             LocalPlayerManager.instance.localPlayer = new Player(GlobalPlayerManager.instance.lastPlayerID);
             localPlayerSet = true;
+
             GlobalPlayerManager.instance.playerList.Add(new Player(GlobalPlayerManager.instance.lastPlayerID));
         }
     }
@@ -49,7 +52,7 @@ public class CustomNetworkManager : NetworkManager
 
         Debug.Log("Adding player to playerList");
         GlobalPlayerManager.instance.lastPlayerID++;
-        GlobalPlayerManager.instance.playerList.Add(new Player(GlobalPlayerManager.instance.lastPlayerID, NetworkClient.connection.connectionId));
+        GlobalPlayerManager.instance.playerList.Add(new Player(GlobalPlayerManager.instance.lastPlayerID, conn.connectionId));
     }
 
     public override void OnServerDisconnect(NetworkConnectionToClient conn)
