@@ -1,6 +1,7 @@
 using Mirror;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class GlobalPlayerManager : NetworkBehaviour
@@ -9,8 +10,8 @@ public class GlobalPlayerManager : NetworkBehaviour
 
     [SyncVar] public List<Player> playerList;
 
-    public int numPlayers = 0;
-    public int lastPlayerID = 0;
+    [SyncVar] public int numPlayers = 0;
+    [SyncVar] public int lastPlayerID = 0;
 
     private void Awake()
     {
