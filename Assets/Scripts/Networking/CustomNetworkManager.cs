@@ -13,6 +13,7 @@ public class CustomNetworkManager : NetworkManager
     {
         base.OnClientConnect();
         Debug.Log("Client connecting!");
+        Debug.Log("numPlayers: " + numPlayers);
 
         if (numPlayers == maxPlayers)
         {
@@ -24,6 +25,7 @@ public class CustomNetworkManager : NetworkManager
     {
         base.OnServerConnect(conn);
         Debug.Log("Client connecting to server!");
+        Debug.Log("numPlayers: " + numPlayers);
 
         if (numPlayers == maxPlayers)
         {
