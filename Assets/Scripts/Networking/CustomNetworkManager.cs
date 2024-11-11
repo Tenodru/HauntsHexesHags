@@ -60,6 +60,7 @@ public class CustomNetworkManager : NetworkManager
         base.OnServerDisconnect(conn);
         Debug.Log("Client disconnecting from this server!");
 
+        GlobalPlayerManager.instance.lastPlayerID--;
         GlobalPlayerManager.instance.RemovePlayerWithConnectionID(conn.connectionId);
     }
 
@@ -81,6 +82,8 @@ public class CustomNetworkManager : NetworkManager
         {
             SteamLobby.instance.isLobbyFull = false;
         }
+
+        GlobalPlayerManager.instance.lastPlayerID = 0;
     }
 }
 
