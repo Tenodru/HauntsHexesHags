@@ -8,7 +8,7 @@ public class CustomNetworkManager : NetworkManager
     [Header ("Game-specific Variables")]
     public NetworkState networkState = NetworkState.None;
     public int maxPlayers = 2;
-    [SyncVar] public int playerCount = 0;
+    public int playerCount = 0;
 
     public override void OnClientConnect()
     {
