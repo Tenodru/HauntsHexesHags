@@ -103,6 +103,7 @@ public class MainMenu : MonoBehaviour
     public void TR_LobbySearch_to_LobbyMain()
     {
         // Goes from Lobby Search to Lobby Main screen
+        mainMenuScreen.gameObject.SetActive(false);
         lobbySearchScreen.gameObject.SetActive(false);
         lobbyMainScreen.gameObject.SetActive(true);
         startGameButton.gameObject.SetActive(false);
@@ -112,6 +113,7 @@ public class MainMenu : MonoBehaviour
     {
         // Goes from Lobby Main to Lobby Search screen
         lobbySearchScreen.gameObject.SetActive(true);
+        mainMenuScreen.gameObject.SetActive(false);
         lobbyMainScreen.gameObject.SetActive(false);
     }
 

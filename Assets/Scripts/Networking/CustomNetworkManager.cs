@@ -27,11 +27,13 @@ public class CustomNetworkManager : NetworkManager
         lastPlayerID++;
         if (!localPlayerSet)
         {
+            Debug.Log("Adding local player to playerList");
             GlobalPlayerManager.instance.localPlayer = new Player(lastPlayerID);
             localPlayerSet = true;
             GlobalPlayerManager.instance.playerList.Add(new Player(lastPlayerID));
         } else
         {
+            Debug.Log("Adding outside player to playerList");
             GlobalPlayerManager.instance.playerList.Add(new Player(lastPlayerID, NetworkClient.connection.connectionId));
         }
     }
