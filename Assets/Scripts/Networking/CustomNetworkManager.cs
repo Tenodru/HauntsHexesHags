@@ -31,10 +31,6 @@ public class CustomNetworkManager : NetworkManager
             GlobalPlayerManager.instance.localPlayer = new Player(lastPlayerID);
             localPlayerSet = true;
             GlobalPlayerManager.instance.playerList.Add(new Player(lastPlayerID));
-        } else
-        {
-            Debug.Log("Adding outside player to playerList");
-            GlobalPlayerManager.instance.playerList.Add(new Player(lastPlayerID, NetworkClient.connection.connectionId));
         }
     }
 
@@ -48,6 +44,9 @@ public class CustomNetworkManager : NetworkManager
         {
             SteamLobby.instance.isLobbyFull = true;
         }
+
+        Debug.Log("Adding outside player to playerList");
+        GlobalPlayerManager.instance.playerList.Add(new Player(lastPlayerID, NetworkClient.connection.connectionId));
     }
 
     public override void OnServerDisconnect(NetworkConnectionToClient conn)
