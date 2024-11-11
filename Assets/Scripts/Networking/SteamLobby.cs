@@ -25,6 +25,7 @@ public class SteamLobby : MonoBehaviour
     public TextMeshProUGUI LobbyNameText;
 
     private ulong currentLobbyID;
+    private bool isLobbyFull = false;
 
     private void Awake()
     {
@@ -79,6 +80,8 @@ public class SteamLobby : MonoBehaviour
         currentLobbyID = callback.m_ulSteamIDLobby;
         MainMenu.instance.ChangeLobbyIDDisplay(currentLobbyID);
 
+        isLobbyFull = true;
+
 
         // For client ONLY
         if (NetworkServer.active) { return; }
@@ -106,13 +109,13 @@ public class SteamLobby : MonoBehaviour
     {
         Debug.Log("Leaving current lobby: " + currentLobbyID);
         SteamMatchmaking.LeaveLobby(new CSteamID(currentLobbyID));
+        isLobbyFull = false;
 
         manager.Disconnect();
     }
 
-    public ulong GetLobbyID()
-    {
-        return currentLobbyID;
-    }
+    public ulong GetLobbyID() { return currentLobbyID; }
+
+    public bool IsLobbyFull() {  return isLobbyFull; }
 }
 

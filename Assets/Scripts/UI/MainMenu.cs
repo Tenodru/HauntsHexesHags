@@ -56,7 +56,6 @@ public class MainMenu : MonoBehaviour
     [SerializeField] TMP_InputField codeInputField;
 
     private bool isJoinLobbyScreenActive = false;
-    private bool isLobbyFull = false;
 
 
     private void Awake()
@@ -114,7 +113,7 @@ public class MainMenu : MonoBehaviour
 
     public void LobbyMainBackButton()
     {
-        if (isLobbyFull)
+        if (SteamLobby.instance.IsLobbyFull())
         {
             // If both players are in, go back to main menu
             TR_ShowMainMenu();
