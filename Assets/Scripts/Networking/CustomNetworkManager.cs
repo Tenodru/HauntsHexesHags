@@ -8,15 +8,13 @@ public class CustomNetworkManager : NetworkManager
     [Header ("Game-specific Variables")]
     public NetworkState networkState = NetworkState.None;
     public int maxPlayers = 2;
-    public int playerCount = 0;
 
     public override void OnClientConnect()
     {
         base.OnClientConnect();
         Debug.Log("Client connecting!");
-        playerCount += 1;
 
-        if (playerCount == maxPlayers)
+        if (numPlayers == maxPlayers)
         {
             SteamLobby.instance.isLobbyFull = true;
         }
@@ -26,7 +24,11 @@ public class CustomNetworkManager : NetworkManager
     {
         base.OnServerConnect(conn);
         Debug.Log("Client connecting to server!");
-        playerCount += 1;
+
+        if (numPlayers == maxPlayers)
+        {
+            SteamLobby.instance.isLobbyFull = true;
+        }
     }
 
     public void Disconnect()
@@ -41,7 +43,11 @@ public class CustomNetworkManager : NetworkManager
             StopClient();
             
         }
-        playerCount = 1;
+
+        if (numPlayers < maxPlayers)
+        {
+            SteamLobby.instance.isLobbyFull = false;
+        }
     }
 }
 
