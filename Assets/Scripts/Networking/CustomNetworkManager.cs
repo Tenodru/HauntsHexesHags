@@ -5,8 +5,22 @@ using Mirror;
 
 public class CustomNetworkManager : NetworkManager
 {
+    [Header ("Game-specific Variables")]
     public NetworkState networkState = NetworkState.None;
+    public int playerCount = 1;
+    public int maxPlayers = 2;
 
+    public override void OnClientConnect()
+    {
+        base.OnClientConnect();
+        Debug.Log("Client connecting!");
+        playerCount += 1;
+
+        if (playerCount == maxPlayers)
+        {
+            SteamLobby.instance.isLobbyFull = true;
+        }
+    }
 
     public void Disconnect()
     {
@@ -18,7 +32,9 @@ public class CustomNetworkManager : NetworkManager
         {
             Debug.Log("Disconnecting client.");
             StopClient();
+            
         }
+        playerCount = 1;
     }
 }
 

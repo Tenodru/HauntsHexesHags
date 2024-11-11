@@ -120,7 +120,7 @@ public class MainMenu : MonoBehaviour
         // TODO: Change this so that no matter what, the back button will close the lobby and go back to lobby search
         //       Add a warning popup that asks users if they want to confirm if they want to leave
 
-        if (SteamLobby.instance.IsLobbyFull())
+        if (SteamLobby.instance.isLobbyFull)
         {
             // If both players are in, go back to main menu
             TR_ShowMainMenu();
@@ -155,6 +155,7 @@ public class MainMenu : MonoBehaviour
 
     public void LobbyCodeEntered()
     {
+        // Converts inputted code to ulong and calls JoinLobby
         string codeInput = codeInputField.text;
         ulong convertedCode = (ulong)(Decimal.Parse(codeInput));
 
