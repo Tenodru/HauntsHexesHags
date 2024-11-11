@@ -60,12 +60,12 @@ public class CustomNetworkManager : NetworkManager
         base.OnServerDisconnect(conn);
         Debug.Log("Client disconnecting from this server!");
 
-        GlobalPlayerManager.instance.RemovePlayer(LocalPlayerManager.instance.localPlayer);
+        GlobalPlayerManager.instance.RemovePlayerWithConnectionID(conn.connectionId);
     }
 
     public void Disconnect()
     {
-        GlobalPlayerManager.instance.RemovePlayer(LocalPlayerManager.instance.localPlayer);
+        GlobalPlayerManager.instance.ClearPlayerList();
         if (networkState == NetworkState.Host)
         {
             Debug.Log("Disconnecting host.");

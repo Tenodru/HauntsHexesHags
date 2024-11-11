@@ -34,6 +34,23 @@ public class GlobalPlayerManager : NetworkBehaviour
             Debug.Log("Player not found; no player removed from playerList.");
         }
     }
+
+    public void RemovePlayerWithConnectionID(int connID)
+    {
+        try
+        {
+            playerList.RemoveAll(player => player.connectionID == connID);
+        }
+        catch
+        {
+            Debug.Log("Player with connection ID not found; no player removed from playerList.");
+        }
+    }
+
+    public void ClearPlayerList()
+    { 
+        playerList.Clear(); 
+    }
 }
 
 
