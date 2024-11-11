@@ -27,6 +27,13 @@ public class MainMenu : MonoBehaviour
     [Tooltip("The back button on the Lobby Search screen.")]
     [SerializeField] Button lobbySearchBackButton;
 
+    [Header("Join Lobby UI")]
+    [Tooltip("The join lobby UI.")]
+    [SerializeField] RectTransform joinLobbyScreen;
+
+    [Tooltip("The join lobby code input field.")]
+    [SerializeField] TMP_InputField codeInputField;
+
     [Header("Lobby Main Screen Elements")]
     [SerializeField] RectTransform lobbyMainScreen;
 
@@ -48,12 +55,8 @@ public class MainMenu : MonoBehaviour
     [Tooltip("The back button on the Lobby Main screen.")]
     [SerializeField] Button lobbyMainBackButton;
 
-    [Header("Join Lobby UI")]
-    [Tooltip("The join lobby UI.")]
-    [SerializeField] RectTransform joinLobbyScreen;
-
-    [Tooltip("The join lobby code input field.")]
-    [SerializeField] TMP_InputField codeInputField;
+    [Tooltip("The Start Game button.")]
+    [SerializeField] Button startGameButton;
 
     private bool isJoinLobbyScreenActive = false;
 
@@ -102,6 +105,7 @@ public class MainMenu : MonoBehaviour
         // Goes from Lobby Search to Lobby Main screen
         lobbySearchScreen.gameObject.SetActive(false);
         lobbyMainScreen.gameObject.SetActive(true);
+        startGameButton.gameObject.SetActive(false);
     }
 
     public void TR_LobbyMain_to_LobbySearch()
@@ -113,6 +117,9 @@ public class MainMenu : MonoBehaviour
 
     public void LobbyMainBackButton()
     {
+        // TODO: Change this so that no matter what, the back button will close the lobby and go back to lobby search
+        //       Add a warning popup that asks users if they want to confirm if they want to leave
+
         if (SteamLobby.instance.IsLobbyFull())
         {
             // If both players are in, go back to main menu
@@ -140,7 +147,7 @@ public class MainMenu : MonoBehaviour
         hostLobbyButton.gameObject.SetActive(true);
     }
 
-    public void ToggleJoinLobbyScreen()
+    public void ToggleJoinLobbyInput()
     {
         isJoinLobbyScreenActive = !isJoinLobbyScreenActive;
         joinLobbyScreen.gameObject.SetActive(isJoinLobbyScreenActive);
@@ -160,6 +167,7 @@ public class MainMenu : MonoBehaviour
     {
         // Should be called from SteamLobby when a lobby is joined
         TR_LobbySearch_to_LobbyMain();
+        steamInviteButton.gameObject.SetActive(false);
         lobbyIDDisplay.text = "LOBBY ID: " + SteamLobby.instance.GetLobbyID();
     }
 }

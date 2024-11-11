@@ -90,6 +90,8 @@ public class SteamLobby : MonoBehaviour
         manager.StartClient();
         manager.networkState = NetworkState.Client;
 
+        MainMenu.instance.EnterLobbyScreen();
+
         //lobbyDisplay.text = "Lobby: " + callback.m_ulSteamIDLobby;
     }
 
@@ -102,7 +104,6 @@ public class SteamLobby : MonoBehaviour
     {
         //string hostAddress = SteamMatchmaking.GetLobbyData(new CSteamID(lobbyID), )
         SteamMatchmaking.JoinLobby(new CSteamID(lobbyID));
-        MainMenu.instance.EnterLobbyScreen();
     }
 
     public void LeaveLobby()
