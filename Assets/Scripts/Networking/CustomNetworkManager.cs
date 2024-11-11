@@ -2,12 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using Unity.VisualScripting;
 
 public class CustomNetworkManager : NetworkManager
 {
     [Header ("Game-specific Variables")]
     public NetworkState networkState = NetworkState.None;
     public int maxPlayers = 2;
+
+    private int lastPlayerID = 0;
+    private bool localPlayerSet = false;
 
     public override void OnClientConnect()
     {
@@ -18,6 +22,19 @@ public class CustomNetworkManager : NetworkManager
         if (numPlayers == maxPlayers)
         {
             SteamLobby.instance.isLobbyFull = true;
+        }
+
+        lastPlayerID++;
+        
+
+        if (!localPlayerSet)
+        {
+            GlobalPlayerManager.instance.localPlayer = new Player(lastPlayerID);
+            localPlayerSet = true;
+            GlobalPlayerManager.instance.playerList.Add(new Player(lastPlayerID));
+        } else
+        {
+            GlobalPlayerManager.instance.playerList.Add(new Player(lastPlayerID, NetworkClient.connection.connectionId));
         }
     }
 
@@ -33,8 +50,17 @@ public class CustomNetworkManager : NetworkManager
         }
     }
 
+    public override void OnServerDisconnect(NetworkConnectionToClient conn)
+    {
+        base.OnServerDisconnect(conn);
+        Debug.Log("Client disconnecting from this server!");
+
+        GlobalPlayerManager.instance.RemovePlayer(GlobalPlayerManager.instance.localPlayer);
+    }
+
     public void Disconnect()
     {
+        GlobalPlayerManager.instance.RemovePlayer(GlobalPlayerManager.instance.localPlayer);
         if (networkState == NetworkState.Host)
         {
             Debug.Log("Disconnecting host.");
