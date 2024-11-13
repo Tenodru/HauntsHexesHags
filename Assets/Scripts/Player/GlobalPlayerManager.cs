@@ -1,5 +1,6 @@
 using Mirror;
 using Mirror.BouncyCastle.Asn1.Mozilla;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ public class GlobalPlayerManager : NetworkBehaviour
 
 
     [SyncVar] public List<Player> playerList;
-    [SyncVar] public Queue<string> steamUserUpdateQueue;
+    public Queue<String> steamUserUpdateQueue;
 
     [SyncVar] public int numPlayers = 0;
     [SyncVar] public int lastPlayerID = 0;
@@ -102,6 +103,7 @@ public class GlobalPlayerManager : NetworkBehaviour
     { 
         playerList.Clear(); 
     }
+
 
     public void AddSteamUserToQueue(string steamID)
     {
