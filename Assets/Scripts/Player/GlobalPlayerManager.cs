@@ -34,6 +34,12 @@ public class GlobalPlayerManager : NetworkBehaviour
         if (playerList.Count == 0) { return; }
         Debug.Log("Updating with new steamID: " + newSteamID);
 
+        if (playerList.Where(player => player.playerSteamID == newSteamID).Any())
+        {
+            Debug.Log("SteamID already assigned!");
+            return;
+        }
+
         foreach (var player in playerList)
         {
             if (player.playerSteamID == "none")

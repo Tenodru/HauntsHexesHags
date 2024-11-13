@@ -81,7 +81,7 @@ public class SteamLobby : MonoBehaviour
         Debug.Log("POG");
         currentLobbyID = callback.m_ulSteamIDLobby;
         MainMenu.instance.ChangeLobbyIDDisplay(currentLobbyID);
-
+        GlobalPlayerManager.instance.UpdatePlayerListSteamIDs(SteamUser.GetSteamID().ToString());
 
         // For client ONLY
         if (NetworkServer.active) { return; }

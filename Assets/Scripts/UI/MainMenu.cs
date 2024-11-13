@@ -78,6 +78,8 @@ public class MainMenu : MonoBehaviour
     private void Start()
     {
         TR_ShowMainMenu();
+
+        // Stuff to run if playerList updates
         GlobalPlayerManager.onPlayerListUpdate += ToggleStartGameButton;
     }
 
