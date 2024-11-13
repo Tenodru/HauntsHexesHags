@@ -105,6 +105,7 @@ namespace Mirror.FizzySteam
                 steamIDToMirrorID.Add(param.m_info.m_identityRemote.GetSteamID(), connectionId);
                 OnConnected?.Invoke(connectionId);
                 Debug.Log($"Client with SteamID {clientSteamID} connected. Assigning connection id {connectionId}");
+                Debug.Log("hehe funny");
             }
             else if (param.m_info.m_eState == ESteamNetworkingConnectionState.k_ESteamNetworkingConnectionState_ClosedByPeer || param.m_info.m_eState == ESteamNetworkingConnectionState.k_ESteamNetworkingConnectionState_ProblemDetectedLocally)
             {
