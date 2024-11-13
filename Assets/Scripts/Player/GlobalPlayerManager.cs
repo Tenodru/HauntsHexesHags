@@ -17,7 +17,7 @@ public class GlobalPlayerManager : NetworkBehaviour
 
 
     [SyncVar] public List<Player> playerList;
-    public Queue<String> steamUserUpdateQueue;
+    public Queue<string> steamUserUpdateQueue;
 
     [SyncVar] public int numPlayers = 0;
     [SyncVar] public int lastPlayerID = 0;
