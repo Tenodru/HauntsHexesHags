@@ -35,6 +35,7 @@ public class GlobalPlayerManager : NetworkBehaviour
 
     private void Update()
     {
+        Debug.Log("Queue: " + steamUserUpdateQueue.Count);
         if (steamUserUpdateQueue.Count > 0) 
         {
             if (UpdatePlayerListSteamIDs(steamUserUpdateQueue.Peek())) { steamUserUpdateQueue.Dequeue(); }
