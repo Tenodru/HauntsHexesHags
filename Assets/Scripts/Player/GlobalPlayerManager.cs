@@ -37,19 +37,19 @@ public class GlobalPlayerManager : NetworkBehaviour
     {
         if (steamUserUpdateQueue.Count > 0) 
         {
-            UpdatePlayerListSteamIDs(steamUserUpdateQueue.Dequeue());
+            if (UpdatePlayerListSteamIDs(steamUserUpdateQueue.Peek())) { steamUserUpdateQueue.Dequeue(); }
         }
     }
 
-    public void UpdatePlayerListSteamIDs(string newSteamID)
+    public bool UpdatePlayerListSteamIDs(string newSteamID)
     {
-        if (playerList.Count == 0) { return; }
+        if (playerList.Count == 0) { return false; }
         Debug.Log("Updating with new steamID: " + newSteamID);
 
         if (playerList.Where(player => player.playerSteamID == newSteamID).Any())
         {
             Debug.Log("SteamID already assigned!");
-            return;
+            return false;
         }
 
         foreach (var player in playerList)
@@ -57,8 +57,11 @@ public class GlobalPlayerManager : NetworkBehaviour
             if (player.playerSteamID == "none")
             {
                 player.playerSteamID = newSteamID;
+                return true;
             }
         }
+
+        return false;
     }
 
     public void AddPlayer(Player playerToAdd)
