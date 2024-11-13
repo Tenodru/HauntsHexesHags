@@ -113,6 +113,7 @@ public class GlobalPlayerManager : NetworkBehaviour
             return;
         }
 
+        Debug.Log("Adding Steam ID to queue.");
         steamUserUpdateQueue.Enqueue(steamID);
     }
 }
