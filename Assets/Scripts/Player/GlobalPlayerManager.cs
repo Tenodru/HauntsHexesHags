@@ -18,6 +18,7 @@ public class GlobalPlayerManager : NetworkBehaviour
 
     [SyncVar] public List<Player> playerList;
     public Queue<string> steamUserUpdateQueue = new Queue<string>();
+    [SyncVar] public List<string> steamUserUpdateList = new List<string>();
 
     [SyncVar] public int numPlayers = 0;
     [SyncVar] public int lastPlayerID = 0;
@@ -35,10 +36,9 @@ public class GlobalPlayerManager : NetworkBehaviour
 
     private void Update()
     {
-        Debug.Log("Queue: " + steamUserUpdateQueue.Count);
-        if (steamUserUpdateQueue.Count > 0) 
+        if (steamUserUpdateList.Count > 0) 
         {
-            if (UpdatePlayerListSteamIDs(steamUserUpdateQueue.Peek())) { steamUserUpdateQueue.Dequeue(); }
+            if (UpdatePlayerListSteamIDs(steamUserUpdateList[0])) { steamUserUpdateList.RemoveAt(0); }
         }
     }
 
@@ -111,14 +111,14 @@ public class GlobalPlayerManager : NetworkBehaviour
 
     public void AddSteamUserToQueue(string steamID)
     {
-        if (steamUserUpdateQueue.Contains(steamID))
+        if (steamUserUpdateList.Contains(steamID))
         {
             Debug.Log("Steam ID already in queue!");
             return;
         }
 
         Debug.Log("Adding Steam ID to queue.");
-        steamUserUpdateQueue.Enqueue(steamID);
+        steamUserUpdateList.Add(steamID);
     }
 }
 
