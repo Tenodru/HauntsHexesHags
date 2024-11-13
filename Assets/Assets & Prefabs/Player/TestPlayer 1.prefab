@@ -82,8 +82,9 @@ GameObject:
   - component: {fileID: 1770420480940525317}
   - component: {fileID: 9083454256338546977}
   - component: {fileID: 2613293415425197530}
+  - component: {fileID: 7027480656564200996}
   m_Layer: 0
-  m_Name: TestPlayer
+  m_Name: TestPlayer 1
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -333,3 +334,20 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+--- !u!114 &7027480656564200996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8380931437843148852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  _assetId: 831253037
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0

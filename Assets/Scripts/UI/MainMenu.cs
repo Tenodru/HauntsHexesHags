@@ -6,6 +6,8 @@ using TMPro;
 using System;
 using UnityEditor.Search;
 using Edgegap;
+using UnityEngine.Events;
+using Steamworks;
 
 public class MainMenu : MonoBehaviour
 {
@@ -76,6 +78,7 @@ public class MainMenu : MonoBehaviour
     private void Start()
     {
         TR_ShowMainMenu();
+        GlobalPlayerManager.onPlayerListUpdate += ToggleStartGameButton;
     }
 
     public void TR_ShowMainMenu()
@@ -172,5 +175,21 @@ public class MainMenu : MonoBehaviour
         TR_LobbySearch_to_LobbyMain();
         steamInviteButton.gameObject.SetActive(false);
         lobbyIDDisplay.text = "LOBBY ID: " + SteamLobby.instance.GetLobbyID();
+    }
+
+    public void UpdateMainMenuSteamIcons( )
+    {
+
+    }
+
+    public void ToggleStartGameButton()
+    {
+        if (GlobalPlayerManager.instance.playerList.Count >= 2)
+        {
+            startGameButton.gameObject.SetActive(true);
+        } else
+        {
+            startGameButton.gameObject.SetActive(false);
+        }
     }
 }

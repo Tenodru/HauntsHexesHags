@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using Unity.VisualScripting;
+using UnityEngine.Events;
 
 public class CustomNetworkManager : NetworkManager
 {
@@ -11,6 +12,7 @@ public class CustomNetworkManager : NetworkManager
     public int maxPlayers = 2;
 
     private bool localPlayerSet = false;
+
 
     public override void OnClientConnect()
     {
@@ -34,7 +36,7 @@ public class CustomNetworkManager : NetworkManager
             LocalPlayerManager.instance.localPlayer = new Player(GlobalPlayerManager.instance.lastPlayerID);
             localPlayerSet = true;
 
-            GlobalPlayerManager.instance.playerList.Add(new Player(GlobalPlayerManager.instance.lastPlayerID));
+            GlobalPlayerManager.instance.AddPlayer(new Player(GlobalPlayerManager.instance.lastPlayerID));
         }
     }
 
@@ -52,7 +54,7 @@ public class CustomNetworkManager : NetworkManager
 
         Debug.Log("Adding player to playerList");
         GlobalPlayerManager.instance.lastPlayerID++;
-        GlobalPlayerManager.instance.playerList.Add(new Player(GlobalPlayerManager.instance.lastPlayerID, conn.connectionId));
+        GlobalPlayerManager.instance.AddPlayer(new Player(GlobalPlayerManager.instance.lastPlayerID, conn.connectionId));
     }
 
     public override void OnServerDisconnect(NetworkConnectionToClient conn)
@@ -62,6 +64,11 @@ public class CustomNetworkManager : NetworkManager
 
         GlobalPlayerManager.instance.lastPlayerID--;
         GlobalPlayerManager.instance.RemovePlayerWithConnectionID(conn.connectionId);
+    }
+
+    public override void OnServerAddPlayer(NetworkConnectionToClient conn)
+    {
+        base.OnServerAddPlayer(conn);
     }
 
     public void Disconnect()

@@ -1,12 +1,17 @@
 using Mirror;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class GlobalPlayerManager : NetworkBehaviour
 {
     public static GlobalPlayerManager instance;
+
+    // Event delegates
+    public delegate void OnPlayerListUpdate();
+    public static OnPlayerListUpdate onPlayerListUpdate;
 
     [SyncVar] public List<Player> playerList;
 
@@ -24,11 +29,39 @@ public class GlobalPlayerManager : NetworkBehaviour
         }
     }
 
+    public void UpdatePlayerListSteamIDs(string newSteamID)
+    {
+        if (playerList.Count == 0) { return; }
+        Debug.Log("Updating with new steamID: " + newSteamID);
+
+        foreach (var player in playerList)
+        {
+            if (player.playerSteamID == "none")
+            {
+                player.playerSteamID = newSteamID;
+            }
+        }
+    }
+
+    public void AddPlayer(Player playerToAdd)
+    {
+        try
+        {
+            playerList.Add(playerToAdd);
+            onPlayerListUpdate();
+        }
+        catch
+        {
+            Debug.Log("Failed to add Player to PlayerList");
+        }
+    }
+
     public void RemovePlayer(Player playerToRemove)
     {
         try
         {
             playerList.Remove(playerToRemove);
+            onPlayerListUpdate();
         } catch
         {
             Debug.Log("Player not found; no player removed from playerList.");
@@ -40,6 +73,7 @@ public class GlobalPlayerManager : NetworkBehaviour
         try
         {
             playerList.RemoveAll(player => player.connectionID == connID);
+            onPlayerListUpdate();
         }
         catch
         {
@@ -60,6 +94,7 @@ public class Player
     public PlayerCharacter character = PlayerCharacter.None;
     public int playerID;
     public int connectionID;
+    public string playerSteamID;
 
     public Player (PlayerCharacter newChar, int newID)
     {
@@ -67,11 +102,12 @@ public class Player
         this.playerID = newID;
     }
 
-    public Player(int newID, int newConnID = 0)
+    public Player(int newID, int newConnID = 0, string playerSteamID = "none")
     {
         this.character = PlayerCharacter.None;
         this.playerID = newID;
         this.connectionID = newConnID;
+        this.playerSteamID = playerSteamID;
     }
 
     public Player()
@@ -79,6 +115,7 @@ public class Player
         this.character = PlayerCharacter.None;
         this.playerID = 0;
         this.connectionID = 0;
+        this.playerSteamID = "none";
     }
 
     public void ChangePlayerCharacter(PlayerCharacter newChar)
