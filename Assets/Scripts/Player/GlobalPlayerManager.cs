@@ -17,7 +17,7 @@ public class GlobalPlayerManager : NetworkBehaviour
 
 
     [SyncVar] public List<Player> playerList;
-    public Queue<string> steamUserUpdateQueue;
+    public Queue<string> steamUserUpdateQueue = new Queue<string>();
 
     [SyncVar] public int numPlayers = 0;
     [SyncVar] public int lastPlayerID = 0;
@@ -35,7 +35,7 @@ public class GlobalPlayerManager : NetworkBehaviour
 
     private void Update()
     {
-        if (steamUserUpdateQueue.Peek() != null) 
+        if (steamUserUpdateQueue.Count > 0) 
         {
             UpdatePlayerListSteamIDs(steamUserUpdateQueue.Dequeue());
         }
