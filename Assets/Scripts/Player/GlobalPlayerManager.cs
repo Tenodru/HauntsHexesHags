@@ -1,4 +1,5 @@
 using Mirror;
+using Mirror.BouncyCastle.Asn1.Mozilla;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,9 @@ public class GlobalPlayerManager : NetworkBehaviour
     public delegate void OnPlayerListUpdate();
     public static OnPlayerListUpdate onPlayerListUpdate;
 
+
     [SyncVar] public List<Player> playerList;
+    [SyncVar] public Queue<string> steamUserUpdateQueue;
 
     [SyncVar] public int numPlayers = 0;
     [SyncVar] public int lastPlayerID = 0;
@@ -26,6 +29,14 @@ public class GlobalPlayerManager : NetworkBehaviour
         } else
         {
             instance = this;
+        }
+    }
+
+    private void Update()
+    {
+        if (steamUserUpdateQueue.Peek() != null) 
+        {
+            UpdatePlayerListSteamIDs(steamUserUpdateQueue.Dequeue());
         }
     }
 
@@ -90,6 +101,17 @@ public class GlobalPlayerManager : NetworkBehaviour
     public void ClearPlayerList()
     { 
         playerList.Clear(); 
+    }
+
+    public void AddSteamUserToQueue(string steamID)
+    {
+        if (steamUserUpdateQueue.Contains(steamID))
+        {
+            Debug.Log("Steam ID already in queue!");
+            return;
+        }
+
+        steamUserUpdateQueue.Enqueue(steamID);
     }
 }
 
