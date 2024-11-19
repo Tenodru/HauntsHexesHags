@@ -59,20 +59,6 @@ public class CustomNetworkManager : NetworkManager
         // Called before OnClientConnect() on host
         base.OnServerConnect(conn);
         Debug.Log("Client connecting to server!");
-        Debug.Log("numPlayers: " + numPlayers);
-
-        if (numPlayers == maxPlayers)
-        {
-            SteamLobby.instance.isLobbyFull = true;
-        }
-
-        Debug.Log("Adding player to playerList");
-        GlobalPlayerManager.lastPlayerID++;
-        ulong playerSteamID = (ulong)SteamMatchmaking.GetLobbyMemberByIndex((CSteamID)SteamLobby.instance.GetLobbyID(), GlobalPlayerManager.playerList.Count);
-        Debug.Log("SteamLobby: " + SteamLobby.instance.GetLobbyID());
-        Debug.Log("playerList Count: " + GlobalPlayerManager.playerList.Count);
-        Debug.Log("Steam ID: " + playerSteamID);
-        GlobalPlayerManager.AddPlayer(new Player(GlobalPlayerManager.lastPlayerID, conn.connectionId, playerSteamID));
     }
 
     public override void OnServerDisconnect(NetworkConnectionToClient conn)
@@ -89,6 +75,21 @@ public class CustomNetworkManager : NetworkManager
         //base.OnServerAddPlayer(conn);
 
         Debug.Log("Adding Player Object!");
+        Debug.Log("numPlayers: " + numPlayers);
+
+        if (numPlayers == maxPlayers)
+        {
+            SteamLobby.instance.isLobbyFull = true;
+            return;
+        }
+
+        Debug.Log("Adding player to playerList");
+        GlobalPlayerManager.lastPlayerID++;
+        ulong playerSteamID = (ulong)SteamMatchmaking.GetLobbyMemberByIndex((CSteamID)SteamLobby.instance.GetLobbyID(), GlobalPlayerManager.playerList.Count);
+        Debug.Log("SteamLobby: " + SteamLobby.instance.GetLobbyID());
+        Debug.Log("playerList Count: " + GlobalPlayerManager.playerList.Count);
+        Debug.Log("Steam ID: " + playerSteamID);
+        GlobalPlayerManager.AddPlayer(new Player(GlobalPlayerManager.lastPlayerID, conn.connectionId, playerSteamID));
     }
 
     public void Disconnect()
