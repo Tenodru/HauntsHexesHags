@@ -431,8 +431,8 @@ MonoBehaviour:
   disconnectInactiveConnections: 0
   disconnectInactiveTimeout: 60
   authenticator: {fileID: 0}
-  playerPrefab: {fileID: 0}
-  autoCreatePlayer: 0
+  playerPrefab: {fileID: 8380931437843148852, guid: 35f5c0cacb658a04ba6c9b22388de1ac, type: 3}
+  autoCreatePlayer: 1
   playerSpawnMethod: 0
   spawnPrefabs: []
   exceptionsDisconnect: 1
@@ -1745,10 +1745,12 @@ MonoBehaviour:
     character: 0
     playerID: 0
     connectionID: 0
+    playerSteamID: 0
   guestPlayer:
     character: 0
     playerID: 0
     connectionID: 0
+    playerSteamID: 0
 --- !u!4 &691646292
 Transform:
   m_ObjectHideFlags: 0
@@ -4001,7 +4003,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   playerList: []
-  numPlayers: 0
+  steamUserUpdateList: []
   lastPlayerID: 0
 --- !u!4 &1858628668
 Transform:

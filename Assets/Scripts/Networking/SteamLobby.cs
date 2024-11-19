@@ -20,10 +20,23 @@ public class SteamLobby : MonoBehaviour
 
     // Variables
     private const string HostAddressKey = "HostAddress";
-    private CustomNetworkManager manager;
+    private CustomNetworkManager networkManager;
 
     //GameObjects
     public TextMeshProUGUI LobbyNameText;
+
+    // Singletons
+    private CustomNetworkManager NetworkManager
+    {
+        get
+        {
+            if (networkManager != null) { return networkManager; }
+
+            return networkManager = (CustomNetworkManager)CustomNetworkManager.singleton;
+        }
+    }
+
+    
 
     private ulong currentLobbyID;
     public bool isLobbyFull = false;
@@ -44,8 +57,6 @@ public class SteamLobby : MonoBehaviour
     {
         if(!SteamManager.Initialized) { return; }
 
-        manager = GetComponent<CustomNetworkManager>();
-
         LobbyCreated = Callback<LobbyCreated_t>.Create(OnLobbyCreated);
         JoinRequest = Callback<GameLobbyJoinRequested_t>.Create(OnJoinRequest);
         LobbyEntered = Callback<LobbyEnter_t>.Create(OnLobbyEntered);
@@ -57,8 +68,8 @@ public class SteamLobby : MonoBehaviour
 
         Debug.Log("Lobby created successfully!");
 
-        manager.StartHost();
-        manager.networkState = NetworkState.Host;
+        NetworkManager.StartHost();
+        NetworkManager.networkState = NetworkState.Host;
         GlobalPlayerManager.instance.AddSteamUserToQueue(SteamUser.GetSteamID().ToString());
         SteamFriends.GetLargeFriendAvatar(SteamUser.GetSteamID());
 
@@ -87,9 +98,9 @@ public class SteamLobby : MonoBehaviour
         // For client ONLY
         if (NetworkServer.active) { return; }
 
-        manager.networkAddress = SteamMatchmaking.GetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), HostAddressKey);
-        manager.StartClient();
-        manager.networkState = NetworkState.Client;
+        NetworkManager.networkAddress = SteamMatchmaking.GetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), HostAddressKey);
+        NetworkManager.StartClient();
+        NetworkManager.networkState = NetworkState.Client;
 
         MainMenu.instance.EnterLobbyScreen();
 
@@ -98,7 +109,7 @@ public class SteamLobby : MonoBehaviour
 
     public void HostLobby()
     {
-        SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypeFriendsOnly, manager.maxConnections);
+        SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypeFriendsOnly, NetworkManager.maxConnections);
     }
 
     public void JoinLobby(ulong lobbyID)
@@ -113,7 +124,7 @@ public class SteamLobby : MonoBehaviour
         SteamMatchmaking.LeaveLobby(new CSteamID(currentLobbyID));
         isLobbyFull = false;
 
-        manager.Disconnect();
+        NetworkManager.Disconnect();
     }
 
     public ulong GetLobbyID() { return currentLobbyID; }

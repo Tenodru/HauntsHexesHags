@@ -4,6 +4,7 @@ using UnityEngine;
 using Mirror;
 using Unity.VisualScripting;
 using UnityEngine.Events;
+using Steamworks;
 
 public class CustomNetworkManager : NetworkManager
 {
@@ -54,7 +55,11 @@ public class CustomNetworkManager : NetworkManager
 
         Debug.Log("Adding player to playerList");
         GlobalPlayerManager.instance.lastPlayerID++;
-        GlobalPlayerManager.instance.AddPlayer(new Player(GlobalPlayerManager.instance.lastPlayerID, conn.connectionId));
+        ulong playerSteamID = (ulong)SteamMatchmaking.GetLobbyMemberByIndex((CSteamID)SteamLobby.instance.GetLobbyID(), GlobalPlayerManager.instance.playerList.Count);
+        Debug.Log("SteamLobby: " + SteamLobby.instance.GetLobbyID());
+        Debug.Log("playerList Count: " + GlobalPlayerManager.instance.playerList.Count);
+        Debug.Log("Steam ID: " + playerSteamID);
+        GlobalPlayerManager.instance.AddPlayer(new Player(GlobalPlayerManager.instance.lastPlayerID, conn.connectionId, playerSteamID));
     }
 
     public override void OnServerDisconnect(NetworkConnectionToClient conn)
@@ -68,7 +73,9 @@ public class CustomNetworkManager : NetworkManager
 
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
-        base.OnServerAddPlayer(conn);
+        //base.OnServerAddPlayer(conn);
+
+        Debug.Log("Adding Player Object!");
     }
 
     public void Disconnect()

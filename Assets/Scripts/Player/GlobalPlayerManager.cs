@@ -20,7 +20,6 @@ public class GlobalPlayerManager : NetworkBehaviour
     public Queue<string> steamUserUpdateQueue = new Queue<string>();
     [SyncVar] public List<string> steamUserUpdateList = new List<string>();
 
-    [SyncVar] public int numPlayers = 0;
     [SyncVar] public int lastPlayerID = 0;
 
     private void Awake()
@@ -36,13 +35,15 @@ public class GlobalPlayerManager : NetworkBehaviour
 
     private void Update()
     {
+        /*
         if (steamUserUpdateList.Count > 0) 
         {
             if (UpdatePlayerListSteamIDs(steamUserUpdateList[0])) { steamUserUpdateList.RemoveAt(0); }
         }
+        */
     }
 
-    public bool UpdatePlayerListSteamIDs(string newSteamID)
+    public bool UpdatePlayerListSteamIDs(ulong newSteamID)
     {
         if (playerList.Count == 0) { return false; }
         Debug.Log("Updating with new steamID: " + newSteamID);
@@ -55,7 +56,7 @@ public class GlobalPlayerManager : NetworkBehaviour
 
         foreach (var player in playerList)
         {
-            if (player.playerSteamID == "none")
+            if (player.playerSteamID == 0)
             {
                 player.playerSteamID = newSteamID;
                 return true;
@@ -129,7 +130,7 @@ public class Player
     public PlayerCharacter character = PlayerCharacter.None;
     public int playerID;
     public int connectionID;
-    public string playerSteamID;
+    public ulong playerSteamID;
 
     public Player (PlayerCharacter newChar, int newID)
     {
@@ -137,7 +138,7 @@ public class Player
         this.playerID = newID;
     }
 
-    public Player(int newID, int newConnID = 0, string playerSteamID = "none")
+    public Player(int newID, int newConnID = 0, ulong playerSteamID = 0)
     {
         this.character = PlayerCharacter.None;
         this.playerID = newID;
@@ -150,7 +151,7 @@ public class Player
         this.character = PlayerCharacter.None;
         this.playerID = 0;
         this.connectionID = 0;
-        this.playerSteamID = "none";
+        this.playerSteamID = 0;
     }
 
     public void ChangePlayerCharacter(PlayerCharacter newChar)
