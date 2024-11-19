@@ -82,7 +82,8 @@ public class MainMenu : MonoBehaviour
 
         // Stuff to run if playerList updates
         GlobalPlayerManager.onPlayerListUpdate += ToggleStartGameButton;
-        GlobalPlayerManager.onPlayerListUpdate += UpdateMainMenuSteamIcons;
+        GlobalPlayerManager.onPlayerAdded += AddMainMenuSteamIcon;
+        GlobalPlayerManager.onPlayerRemoved += ClearMainMenuSteamIcon;
 
         steamIconList.Add(steamIcon_1);
         steamIconList.Add(steamIcon_2);
@@ -184,14 +185,23 @@ public class MainMenu : MonoBehaviour
         lobbyIDDisplay.text = "LOBBY ID: " + SteamLobby.instance.GetLobbyID();
     }
 
-    public void UpdateMainMenuSteamIcons()
+    public void AddMainMenuSteamIcon(ulong steamID)
     {
-        Debug.Log("Updating Steam icons on main menu!");
-        
         for (int i = 0; i < GlobalPlayerManager.instance.playerList.Count; i++)
         {
             steamIconList[i].PlayerSteamID = GlobalPlayerManager.instance.playerList[i].playerSteamID;
             steamIconList[i].GetPlayerIcon();
+        }
+    }
+
+    public void ClearMainMenuSteamIcon(ulong steamID)
+    {
+        foreach (SteamIconImage image in steamIconList)
+        {
+            if (image.PlayerSteamID == steamID)
+            {
+                image.ClearPlayerIcon();
+            }
         }
     }
 

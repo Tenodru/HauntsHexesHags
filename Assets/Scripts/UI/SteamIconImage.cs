@@ -48,6 +48,14 @@ public class SteamIconImage : MonoBehaviour
         Debug.Log("Getting player Steam avatar with SteamID: " + PlayerSteamID + " successful!");
     }
 
+    public void ClearPlayerIcon()
+    {
+        Debug.Log("Clearing player icon, probably because this player disconnected or left.");
+
+        PlayerSteamID = 0;
+        icon.texture = null;
+    }
+
     private Texture2D GetSteamImageAsTexture(int iImage)
     {
         Texture2D texture = null;
