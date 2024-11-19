@@ -14,6 +14,10 @@ public class GlobalPlayerManager : NetworkBehaviour
     // Event delegates
     public delegate void OnPlayerListUpdate();
     public static OnPlayerListUpdate onPlayerListUpdate;
+    public delegate void OnPlayerAdded(ulong steamID);
+    public static OnPlayerAdded onPlayerAdded;
+    public delegate void OnPlayerRemoved(ulong steamID);
+    public static OnPlayerRemoved onPlayerRemoved;
 
 
     [SyncVar] public List<Player> playerList;
@@ -43,6 +47,58 @@ public class GlobalPlayerManager : NetworkBehaviour
         */
     }
 
+    public void AddPlayer(Player playerToAdd)
+    {
+        try
+        {
+            playerList.Add(playerToAdd);
+            onPlayerListUpdate();
+            onPlayerAdded(playerToAdd.playerSteamID);
+        }
+        catch
+        {
+            Debug.Log("Failed to add Player to PlayerList");
+        }
+    }
+
+    public void RemovePlayer(int connID)
+    {
+        try
+        {
+            Player playerToRemove = playerList.Find(player => player.connectionID == connID);
+            playerList.RemoveAll(player => player.connectionID == connID);
+            onPlayerListUpdate();
+            onPlayerRemoved(playerToRemove.playerSteamID);
+        } catch
+        {
+            Debug.Log("Player not found; no player removed from playerList.");
+        }
+    }
+
+    public void ClearPlayerList()
+    {
+        playerList.Clear();
+    }
+
+
+
+
+    [Obsolete]
+    public void RemovePlayerWithConnectionID(int connID)
+    {
+        try
+        {
+            playerList.RemoveAll(player => player.connectionID == connID);
+            onPlayerListUpdate();
+            //onPlayerRemoved();
+        }
+        catch
+        {
+            Debug.Log("Player with connection ID not found; no player removed from playerList.");
+        }
+    }
+
+    [Obsolete]
     public bool UpdatePlayerListSteamIDs(ulong newSteamID)
     {
         if (playerList.Count == 0) { return false; }
@@ -66,50 +122,7 @@ public class GlobalPlayerManager : NetworkBehaviour
         return false;
     }
 
-    public void AddPlayer(Player playerToAdd)
-    {
-        try
-        {
-            playerList.Add(playerToAdd);
-            onPlayerListUpdate();
-        }
-        catch
-        {
-            Debug.Log("Failed to add Player to PlayerList");
-        }
-    }
-
-    public void RemovePlayer(Player playerToRemove)
-    {
-        try
-        {
-            playerList.Remove(playerToRemove);
-            onPlayerListUpdate();
-        } catch
-        {
-            Debug.Log("Player not found; no player removed from playerList.");
-        }
-    }
-
-    public void RemovePlayerWithConnectionID(int connID)
-    {
-        try
-        {
-            playerList.RemoveAll(player => player.connectionID == connID);
-            onPlayerListUpdate();
-        }
-        catch
-        {
-            Debug.Log("Player with connection ID not found; no player removed from playerList.");
-        }
-    }
-
-    public void ClearPlayerList()
-    { 
-        playerList.Clear(); 
-    }
-
-
+    [Obsolete]
     public void AddSteamUserToQueue(string steamID)
     {
         if (steamUserUpdateList.Contains(steamID))

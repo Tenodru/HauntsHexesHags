@@ -67,7 +67,7 @@ public class CustomNetworkManager : NetworkManager
         Debug.Log("Client disconnecting from this server!");
 
         GlobalPlayerManager.lastPlayerID--;
-        GlobalPlayerManager.RemovePlayerWithConnectionID(conn.connectionId);
+        GlobalPlayerManager.RemovePlayer(conn.connectionId);
     }
 
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
