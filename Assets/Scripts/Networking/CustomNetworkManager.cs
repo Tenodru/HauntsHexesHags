@@ -14,6 +14,19 @@ public class CustomNetworkManager : NetworkManager
 
     private bool localPlayerSet = false;
 
+    private GlobalPlayerManager globalPlayerManager;
+
+    // Singletons
+    private GlobalPlayerManager GlobalPlayerManager
+    {
+        get
+        {
+            if (globalPlayerManager != null) { return globalPlayerManager; }
+
+            return globalPlayerManager = GlobalPlayerManager.instance;
+        }
+    }
+
 
     public override void OnClientConnect()
     {
@@ -33,11 +46,11 @@ public class CustomNetworkManager : NetworkManager
         {
             Debug.Log("Adding local player to playerList");
 
-            GlobalPlayerManager.instance.lastPlayerID++;
-            LocalPlayerManager.instance.localPlayer = new Player(GlobalPlayerManager.instance.lastPlayerID);
+            GlobalPlayerManager.lastPlayerID++;
+            LocalPlayerManager.instance.localPlayer = new Player(GlobalPlayerManager.lastPlayerID);
             localPlayerSet = true;
 
-            GlobalPlayerManager.instance.AddPlayer(new Player(GlobalPlayerManager.instance.lastPlayerID));
+            GlobalPlayerManager.AddPlayer(new Player(GlobalPlayerManager.lastPlayerID));
         }
     }
 
@@ -54,12 +67,12 @@ public class CustomNetworkManager : NetworkManager
         }
 
         Debug.Log("Adding player to playerList");
-        GlobalPlayerManager.instance.lastPlayerID++;
-        ulong playerSteamID = (ulong)SteamMatchmaking.GetLobbyMemberByIndex((CSteamID)SteamLobby.instance.GetLobbyID(), GlobalPlayerManager.instance.playerList.Count);
+        GlobalPlayerManager.lastPlayerID++;
+        ulong playerSteamID = (ulong)SteamMatchmaking.GetLobbyMemberByIndex((CSteamID)SteamLobby.instance.GetLobbyID(), GlobalPlayerManager.playerList.Count);
         Debug.Log("SteamLobby: " + SteamLobby.instance.GetLobbyID());
-        Debug.Log("playerList Count: " + GlobalPlayerManager.instance.playerList.Count);
+        Debug.Log("playerList Count: " + GlobalPlayerManager.playerList.Count);
         Debug.Log("Steam ID: " + playerSteamID);
-        GlobalPlayerManager.instance.AddPlayer(new Player(GlobalPlayerManager.instance.lastPlayerID, conn.connectionId, playerSteamID));
+        GlobalPlayerManager.AddPlayer(new Player(GlobalPlayerManager.lastPlayerID, conn.connectionId, playerSteamID));
     }
 
     public override void OnServerDisconnect(NetworkConnectionToClient conn)
@@ -67,8 +80,8 @@ public class CustomNetworkManager : NetworkManager
         base.OnServerDisconnect(conn);
         Debug.Log("Client disconnecting from this server!");
 
-        GlobalPlayerManager.instance.lastPlayerID--;
-        GlobalPlayerManager.instance.RemovePlayerWithConnectionID(conn.connectionId);
+        GlobalPlayerManager.lastPlayerID--;
+        GlobalPlayerManager.RemovePlayerWithConnectionID(conn.connectionId);
     }
 
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
@@ -80,7 +93,7 @@ public class CustomNetworkManager : NetworkManager
 
     public void Disconnect()
     {
-        GlobalPlayerManager.instance.ClearPlayerList();
+        GlobalPlayerManager.ClearPlayerList();
         if (networkState == NetworkState.Host)
         {
             Debug.Log("Disconnecting host.");
@@ -97,7 +110,7 @@ public class CustomNetworkManager : NetworkManager
             SteamLobby.instance.isLobbyFull = false;
         }
 
-        GlobalPlayerManager.instance.lastPlayerID = 0;
+        GlobalPlayerManager.lastPlayerID = 0;
     }
 }
 

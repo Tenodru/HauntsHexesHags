@@ -21,6 +21,7 @@ public class SteamLobby : MonoBehaviour
     // Variables
     private const string HostAddressKey = "HostAddress";
     private CustomNetworkManager networkManager;
+    private GlobalPlayerManager globalPlayerManager;
 
     //GameObjects
     public TextMeshProUGUI LobbyNameText;
@@ -35,8 +36,16 @@ public class SteamLobby : MonoBehaviour
             return networkManager = (CustomNetworkManager)CustomNetworkManager.singleton;
         }
     }
+    private GlobalPlayerManager GlobalPlayerManager
+    {
+        get
+        {
+            if (globalPlayerManager != null) { return globalPlayerManager; }
 
-    
+            return globalPlayerManager = GlobalPlayerManager.instance;
+        }
+    }
+
 
     private ulong currentLobbyID;
     public bool isLobbyFull = false;
@@ -70,7 +79,7 @@ public class SteamLobby : MonoBehaviour
 
         NetworkManager.StartHost();
         NetworkManager.networkState = NetworkState.Host;
-        GlobalPlayerManager.instance.AddSteamUserToQueue(SteamUser.GetSteamID().ToString());
+        GlobalPlayerManager.AddSteamUserToQueue(SteamUser.GetSteamID().ToString());
         SteamFriends.GetLargeFriendAvatar(SteamUser.GetSteamID());
 
         SteamMatchmaking.SetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), HostAddressKey, SteamUser.GetSteamID().ToString());
@@ -93,7 +102,7 @@ public class SteamLobby : MonoBehaviour
         Debug.Log("POG");
         currentLobbyID = callback.m_ulSteamIDLobby;
         MainMenu.instance.ChangeLobbyIDDisplay(currentLobbyID);
-        GlobalPlayerManager.instance.AddSteamUserToQueue(SteamUser.GetSteamID().ToString());
+        GlobalPlayerManager.AddSteamUserToQueue(SteamUser.GetSteamID().ToString());
 
         // For client ONLY
         if (NetworkServer.active) { return; }
