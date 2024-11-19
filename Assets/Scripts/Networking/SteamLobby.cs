@@ -79,7 +79,6 @@ public class SteamLobby : MonoBehaviour
 
         NetworkManager.StartHost();
         NetworkManager.networkState = NetworkState.Host;
-        GlobalPlayerManager.AddSteamUserToQueue(SteamUser.GetSteamID().ToString());
         SteamFriends.GetLargeFriendAvatar(SteamUser.GetSteamID());
 
         SteamMatchmaking.SetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), HostAddressKey, SteamUser.GetSteamID().ToString());
@@ -102,7 +101,6 @@ public class SteamLobby : MonoBehaviour
         Debug.Log("POG");
         currentLobbyID = callback.m_ulSteamIDLobby;
         MainMenu.instance.ChangeLobbyIDDisplay(currentLobbyID);
-        GlobalPlayerManager.AddSteamUserToQueue(SteamUser.GetSteamID().ToString());
 
         // For client ONLY
         if (NetworkServer.active) { return; }

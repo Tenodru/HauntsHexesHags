@@ -27,7 +27,7 @@ public class CustomNetworkManager : NetworkManager
         }
     }
 
-
+    /*
     public override void OnClientConnect()
     {
         base.OnClientConnect();
@@ -52,7 +52,7 @@ public class CustomNetworkManager : NetworkManager
 
             GlobalPlayerManager.AddPlayer(new Player(GlobalPlayerManager.lastPlayerID));
         }
-    }
+    }*/
 
     public override void OnServerConnect(NetworkConnectionToClient conn)
     {

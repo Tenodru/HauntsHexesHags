@@ -46,10 +46,10 @@ public class MainMenu : MonoBehaviour
     [SerializeField] TextMeshProUGUI lobbyMainSubtitle;
 
     [Tooltip("The left Steam Profile icon on the Lobby Main screen.")]
-    [SerializeField] Image steamIcon_1;
+    [SerializeField] SteamIconImage steamIcon_1;
 
     [Tooltip("The right Steam Profile icon on the Lobby Main screen.")]
-    [SerializeField] Image steamIcon_2;
+    [SerializeField] SteamIconImage steamIcon_2;
 
     [Tooltip("The Invite From Steam button on the Lobby Main screen.")]
     [SerializeField] Button steamInviteButton;
@@ -61,6 +61,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] Button startGameButton;
 
     private bool isJoinLobbyScreenActive = false;
+    private List<SteamIconImage> steamIconList = new List<SteamIconImage>();
 
 
     private void Awake()
@@ -81,6 +82,10 @@ public class MainMenu : MonoBehaviour
 
         // Stuff to run if playerList updates
         GlobalPlayerManager.onPlayerListUpdate += ToggleStartGameButton;
+        GlobalPlayerManager.onPlayerListUpdate += UpdateMainMenuSteamIcons;
+
+        steamIconList.Add(steamIcon_1);
+        steamIconList.Add(steamIcon_2);
     }
 
     public void TR_ShowMainMenu()
@@ -179,9 +184,15 @@ public class MainMenu : MonoBehaviour
         lobbyIDDisplay.text = "LOBBY ID: " + SteamLobby.instance.GetLobbyID();
     }
 
-    public void UpdateMainMenuSteamIcons( )
+    public void UpdateMainMenuSteamIcons()
     {
-
+        Debug.Log("Updating Steam icons on main menu!");
+        
+        for (int i = 0; i < GlobalPlayerManager.instance.playerList.Count; i++)
+        {
+            steamIconList[i].PlayerSteamID = GlobalPlayerManager.instance.playerList[i].playerSteamID;
+            steamIconList[i].GetPlayerIcon();
+        }
     }
 
     public void ToggleStartGameButton()
@@ -194,4 +205,9 @@ public class MainMenu : MonoBehaviour
             startGameButton.gameObject.SetActive(false);
         }
     }
+
+
+
+
+    
 }
