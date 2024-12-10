@@ -4173,7 +4173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02286c2701b31914db962fb75d369283, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncDirection: 0
+  syncDirection: 1
   syncMode: 0
   syncInterval: 0
   playerList: []
