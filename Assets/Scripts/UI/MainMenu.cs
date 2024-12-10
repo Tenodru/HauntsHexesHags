@@ -148,7 +148,6 @@ public class MainMenu : MonoBehaviour
 
         SteamLobby.instance.LeaveLobby();
         ClearAllMainMenuSteamIcons();
-        
     }
 
     public void ChangeLobbyIDDisplay(ulong lobbyID)

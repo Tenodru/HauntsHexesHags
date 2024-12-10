@@ -92,6 +92,12 @@ public class CustomNetworkManager : NetworkManager
         GlobalPlayerManager.AddPlayer(new Player(GlobalPlayerManager.lastPlayerID, conn.connectionId, playerSteamID));
     }
 
+    public override void OnClientDisconnect()
+    {
+        base.OnClientDisconnect();
+        Debug.Log("LEAVIN");
+    }
+
     public void Disconnect()
     {
         GlobalPlayerManager.ClearPlayerList();
