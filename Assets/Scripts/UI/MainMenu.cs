@@ -143,6 +143,7 @@ public class MainMenu : MonoBehaviour
             TR_LobbyMain_to_LobbySearch();
             SteamLobby.instance.LeaveLobby();
         }
+        
     }
 
     public void ChangeLobbyIDDisplay(ulong lobbyID)
@@ -183,6 +184,11 @@ public class MainMenu : MonoBehaviour
         TR_LobbySearch_to_LobbyMain();
         steamInviteButton.gameObject.SetActive(false);
         lobbyIDDisplay.text = "LOBBY ID: " + SteamLobby.instance.GetLobbyID();
+
+        foreach(Player player in GlobalPlayerManager.instance.playerList)
+        {
+            Debug.Log("Player: " +  player);
+        }
     }
 
     public void AddMainMenuSteamIcon(ulong steamID)
@@ -196,6 +202,7 @@ public class MainMenu : MonoBehaviour
 
     public void ClearMainMenuSteamIcon(ulong steamID)
     {
+        Debug.Log("Clearing Steam icons");
         foreach (SteamIconImage image in steamIconList)
         {
             if (image.PlayerSteamID == steamID)
