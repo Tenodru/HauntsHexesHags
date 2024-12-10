@@ -93,7 +93,7 @@ public class GlobalPlayerManager : NetworkBehaviour
     public void ClearPlayerList()
     {
         playerList.Clear();
-        onPlayerListClear();
+        //onPlayerListClear();
     }
 
 
