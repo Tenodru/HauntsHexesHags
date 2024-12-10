@@ -133,6 +133,7 @@ public class MainMenu : MonoBehaviour
         // TODO: Change this so that no matter what, the back button will close the lobby and go back to lobby search
         //       Add a warning popup that asks users if they want to confirm if they want to leave
 
+        /*
         if (SteamLobby.instance.isLobbyFull)
         {
             // If both players are in, go back to main menu
@@ -143,6 +144,10 @@ public class MainMenu : MonoBehaviour
             TR_LobbyMain_to_LobbySearch();
             SteamLobby.instance.LeaveLobby();
         }
+        */
+
+        SteamLobby.instance.LeaveLobby();
+        ClearAllMainMenuSteamIcons();
         
     }
 
@@ -184,11 +189,6 @@ public class MainMenu : MonoBehaviour
         TR_LobbySearch_to_LobbyMain();
         steamInviteButton.gameObject.SetActive(false);
         lobbyIDDisplay.text = "LOBBY ID: " + SteamLobby.instance.GetLobbyID();
-
-        foreach(Player player in GlobalPlayerManager.instance.playerList)
-        {
-            Debug.Log("Player: " +  player);
-        }
     }
 
     public void AddMainMenuSteamIcon(ulong steamID)
@@ -200,8 +200,19 @@ public class MainMenu : MonoBehaviour
         }
     }
 
+    public void ClearAllMainMenuSteamIcons()
+    {
+        // Clears all Steam icons, called on client when client leaves the lobby
+        Debug.Log("Clearing all Steam icons");
+        foreach (SteamIconImage image in steamIconList)
+        {
+            image.ClearPlayerIcon();
+        }
+    }
+
     public void ClearMainMenuSteamIcon(ulong steamID)
     {
+        // Clears a specific Steam icon, used when a player disconnects/leaves
         Debug.Log("Clearing Steam icons");
         foreach (SteamIconImage image in steamIconList)
         {
