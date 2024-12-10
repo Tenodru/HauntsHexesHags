@@ -7,24 +7,34 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-public class GlobalPlayerManager : NetworkBehaviour
+public class GlobalPlayerManager : MonoBehaviour
 {
     public static GlobalPlayerManager instance;
+
+    public PlayerNetworkedData playerNetworkedData;
 
     // Event delegates
     public delegate void OnPlayerListUpdate();
     public static OnPlayerListUpdate onPlayerListUpdate;
-    public delegate void OnPlayerAdded(ulong steamID);
+
+    public delegate void OnPlayerAdded(Player player);
     public static OnPlayerAdded onPlayerAdded;
-    public delegate void OnPlayerRemoved(ulong steamID);
+    public delegate void OnPlayerRemoved(Player player);
     public static OnPlayerRemoved onPlayerRemoved;
+    public delegate void OnPlayerListClear();
+    public static OnPlayerListClear onPlayerListClear;
+
+    public delegate void OnPlayerAddedBySteamID(ulong steamID);
+    public static OnPlayerAddedBySteamID onPlayerAddedBySteamID;
+    public delegate void OnPlayerRemovedBySteamID(ulong steamID);
+    public static OnPlayerRemovedBySteamID onPlayerRemovedBySteamID;
 
 
-    [SyncVar] public List<Player> playerList;
+    public List<Player> playerList;
     public Queue<string> steamUserUpdateQueue = new Queue<string>();
-    [SyncVar] public List<string> steamUserUpdateList = new List<string>();
+    public List<string> steamUserUpdateList = new List<string>();
 
-    [SyncVar] public int lastPlayerID = 0;
+    public int lastPlayerID = 0;
 
     private void Awake()
     {
@@ -54,7 +64,8 @@ public class GlobalPlayerManager : NetworkBehaviour
             Debug.Log("Adding player!");
             playerList.Add(playerToAdd);
             onPlayerListUpdate();
-            onPlayerAdded(playerToAdd.playerSteamID);
+            onPlayerAdded(playerToAdd);
+            onPlayerAddedBySteamID(playerToAdd.playerSteamID);
         }
         catch
         {
@@ -68,18 +79,22 @@ public class GlobalPlayerManager : NetworkBehaviour
         {
             Debug.Log("Removing player!");
             Player playerToRemove = playerList.Find(player => player.connectionID == connID);
+            onPlayerRemoved(playerToRemove);
+            Debug.Log("PLAYER: " + playerToRemove.connectionID);
+            onPlayerRemovedBySteamID(playerToRemove.playerSteamID);
             playerList.RemoveAll(player => player.connectionID == connID);
             onPlayerListUpdate();
-            onPlayerRemoved(playerToRemove.playerSteamID);
         } catch
         {
-            Debug.Log("Player not found; no player removed from playerList.");
+            Debug.Log("Failed to remove player from playerList.");
         }
+        
     }
 
     public void ClearPlayerList()
     {
         playerList.Clear();
+        onPlayerListClear();
     }
 
 
@@ -167,6 +182,11 @@ public class Player
         this.playerID = 0;
         this.connectionID = 0;
         this.playerSteamID = 0;
+    }
+
+    public override string ToString()
+    {
+        return $"PlayerID:{playerID}, ConnID:{connectionID}, SteamID:{playerSteamID}";
     }
 
     public void ChangePlayerCharacter(PlayerCharacter newChar)

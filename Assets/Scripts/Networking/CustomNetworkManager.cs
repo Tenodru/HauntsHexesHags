@@ -25,6 +25,11 @@ public class CustomNetworkManager : NetworkManager
     /// </summary>
     public delegate void OnConnect();
     public static OnConnect onConnect;
+    /// <summary>
+    /// Called when a player is added to the server.
+    /// </summary>
+    public delegate void OnPlayerAdded(Player playerToAdd);
+    public static OnPlayerAdded onPlayerAdded;
 
 
     // Singletons
@@ -102,6 +107,7 @@ public class CustomNetworkManager : NetworkManager
         Debug.Log("playerList Count: " + GlobalPlayerManager.playerList.Count);
         Debug.Log("Steam ID: " + playerSteamID);
         GlobalPlayerManager.AddPlayer(new Player(GlobalPlayerManager.lastPlayerID, conn.connectionId, playerSteamID));
+        //onPlayerAdded(new Player(GlobalPlayerManager.lastPlayerID, conn.connectionId, playerSteamID));
     }
 
     public override void OnClientConnect()

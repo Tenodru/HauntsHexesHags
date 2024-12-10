@@ -9,6 +9,9 @@ public class LocalPlayerManager : MonoBehaviour
 {
     public static LocalPlayerManager instance;
 
+
+    public List<Player> playerList;
+
     public Player localPlayer;
     public Player guestPlayer;
 

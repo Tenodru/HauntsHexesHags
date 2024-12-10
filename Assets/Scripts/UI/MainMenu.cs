@@ -82,8 +82,8 @@ public class MainMenu : MonoBehaviour
 
         // Stuff to run if playerList updates
         GlobalPlayerManager.onPlayerListUpdate += ToggleStartGameButton;
-        GlobalPlayerManager.onPlayerAdded += AddMainMenuSteamIcon;
-        GlobalPlayerManager.onPlayerRemoved += ClearMainMenuSteamIcon;
+        GlobalPlayerManager.onPlayerAddedBySteamID += AddMainMenuSteamIcon;
+        GlobalPlayerManager.onPlayerRemovedBySteamID += ClearMainMenuSteamIcon;
 
         steamIconList.Add(steamIcon_1);
         steamIconList.Add(steamIcon_2);
