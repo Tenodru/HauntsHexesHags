@@ -93,7 +93,14 @@ public class GlobalPlayerManager : NetworkBehaviour
     public void ClearPlayerList()
     {
         playerList.Clear();
-        //onPlayerListClear();
+        try
+        {
+            onPlayerListClear();
+        } catch
+        {
+            Debug.Log("Could not clear networked list.");
+        }
+        
     }
 
 
