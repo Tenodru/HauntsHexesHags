@@ -7,11 +7,9 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-public class GlobalPlayerManager : MonoBehaviour
+public class GlobalPlayerManager : NetworkBehaviour
 {
     public static GlobalPlayerManager instance;
-
-    public PlayerNetworkedData playerNetworkedData;
 
     // Event delegates
     public delegate void OnPlayerListUpdate();
@@ -57,6 +55,7 @@ public class GlobalPlayerManager : MonoBehaviour
         */
     }
 
+    [Command(requiresAuthority = false)]
     public void AddPlayer(Player playerToAdd)
     {
         try
