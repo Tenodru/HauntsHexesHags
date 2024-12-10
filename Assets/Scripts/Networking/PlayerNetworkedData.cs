@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerNetworkedData : NetworkBehaviour
 {
-    [SyncVar] public SyncList<Player> playerList = new SyncList<Player>();
+    public readonly SyncList<Player> playerList = new SyncList<Player>();
 
     private void Start()
     {
