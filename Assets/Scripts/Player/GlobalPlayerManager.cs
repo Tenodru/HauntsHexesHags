@@ -51,6 +51,7 @@ public class GlobalPlayerManager : NetworkBehaviour
     {
         try
         {
+            Debug.Log("Adding player!");
             playerList.Add(playerToAdd);
             onPlayerListUpdate();
             onPlayerAdded(playerToAdd.playerSteamID);
@@ -65,6 +66,7 @@ public class GlobalPlayerManager : NetworkBehaviour
     {
         try
         {
+            Debug.Log("Removing player!");
             Player playerToRemove = playerList.Find(player => player.connectionID == connID);
             playerList.RemoveAll(player => player.connectionID == connID);
             onPlayerListUpdate();
