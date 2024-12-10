@@ -98,7 +98,7 @@ public class SteamLobby : MonoBehaviour
     private void OnLobbyEntered(LobbyEnter_t callback)
     {
         // For everyone who enters lobby, including host
-        Debug.Log("POG");
+        Debug.Log("<color=orange>Entering Steam lobby.</color>");
         currentLobbyID = callback.m_ulSteamIDLobby;
         MainMenu.instance.ChangeLobbyIDDisplay(currentLobbyID);
 
@@ -109,7 +109,7 @@ public class SteamLobby : MonoBehaviour
         NetworkManager.StartClient();
         NetworkManager.networkState = NetworkState.Client;
 
-        MainMenu.instance.EnterLobbyScreen();
+        //MainMenu.instance.EnterLobbyScreen();
 
         //lobbyDisplay.text = "Lobby: " + callback.m_ulSteamIDLobby;
     }

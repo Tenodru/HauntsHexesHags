@@ -88,6 +88,9 @@ public class MainMenu : MonoBehaviour
         steamIconList.Add(steamIcon_1);
         steamIconList.Add(steamIcon_2);
 
+        // Stuff to run if player connects
+        CustomNetworkManager.onConnect += EnterLobbyScreen; // Send player to lobby screen if they connect to a server
+
         // Stuff to run if player disconnects
         CustomNetworkManager.onDisconnect += TR_LobbyMain_to_LobbySearch;   // Send player back to LobbySearch screen
     }
@@ -187,7 +190,7 @@ public class MainMenu : MonoBehaviour
 
     public void EnterLobbyScreen()
     {
-        // Should be called from SteamLobby when a lobby is joined
+        // Should be called when OnConnect event is triggered
         TR_LobbySearch_to_LobbyMain();
         steamInviteButton.gameObject.SetActive(false);
         lobbyIDDisplay.text = "LOBBY ID: " + SteamLobby.instance.GetLobbyID();

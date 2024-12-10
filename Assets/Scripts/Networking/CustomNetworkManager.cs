@@ -20,6 +20,11 @@ public class CustomNetworkManager : NetworkManager
     /// </summary>
     public delegate void OnDisconnect();
     public static OnDisconnect onDisconnect;
+    /// <summary>
+    /// Called when this player connects to a server.
+    /// </summary>
+    public delegate void OnConnect();
+    public static OnConnect onConnect;
 
 
     // Singletons
@@ -65,13 +70,13 @@ public class CustomNetworkManager : NetworkManager
     {
         // Called before OnClientConnect() on host
         base.OnServerConnect(conn);
-        Debug.Log("Client connecting to server!");
+        Debug.Log("<color=orange>Client connecting to server!</color>");
     }
 
     public override void OnServerDisconnect(NetworkConnectionToClient conn)
     {
         base.OnServerDisconnect(conn);
-        Debug.Log("Client disconnecting from this server!");
+        Debug.Log("<color=orange>Client disconnecting from this server!</color>");
 
         GlobalPlayerManager.lastPlayerID--;
         GlobalPlayerManager.RemovePlayer(conn.connectionId);
@@ -99,10 +104,17 @@ public class CustomNetworkManager : NetworkManager
         GlobalPlayerManager.AddPlayer(new Player(GlobalPlayerManager.lastPlayerID, conn.connectionId, playerSteamID));
     }
 
+    public override void OnClientConnect()
+    {
+        base.OnClientConnect();
+        Debug.Log("<color=orange>CNM - Connected to server.</color>");
+        onConnect();
+    }
+
     public override void OnClientDisconnect()
     {
         base.OnClientDisconnect();
-        Debug.Log("Disconnected from server.");
+        Debug.Log("<color=orange>CNM - Disconnected from server.</color>");
         onDisconnect();
     }
 
@@ -111,11 +123,11 @@ public class CustomNetworkManager : NetworkManager
         GlobalPlayerManager.ClearPlayerList();
         if (networkState == NetworkState.Host)
         {
-            Debug.Log("Disconnecting host.");
+            Debug.Log("<color=orange>Disconnecting host.</color>");
             StopHost();
         } else if (networkState == NetworkState.Client)
         {
-            Debug.Log("Disconnecting client.");
+            Debug.Log("<color=orange>Disconnecting client.</color>");
             StopClient();
         }
 
