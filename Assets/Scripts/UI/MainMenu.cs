@@ -87,6 +87,9 @@ public class MainMenu : MonoBehaviour
 
         steamIconList.Add(steamIcon_1);
         steamIconList.Add(steamIcon_2);
+
+        // Stuff to run if player disconnects
+        CustomNetworkManager.onDisconnect += TR_LobbyMain_to_LobbySearch;   // Send player back to LobbySearch screen
     }
 
     public void TR_ShowMainMenu()

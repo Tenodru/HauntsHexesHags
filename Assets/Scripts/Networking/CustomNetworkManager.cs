@@ -14,9 +14,16 @@ public class CustomNetworkManager : NetworkManager
 
     private bool localPlayerSet = false;
 
-    private GlobalPlayerManager globalPlayerManager;
+    // Event Delegates
+    /// <summary>
+    /// Called when this player disconnects from the server.
+    /// </summary>
+    public delegate void OnDisconnect();
+    public static OnDisconnect onDisconnect;
+
 
     // Singletons
+    private GlobalPlayerManager globalPlayerManager;
     private GlobalPlayerManager GlobalPlayerManager
     {
         get
@@ -95,7 +102,8 @@ public class CustomNetworkManager : NetworkManager
     public override void OnClientDisconnect()
     {
         base.OnClientDisconnect();
-        Debug.Log("LEAVIN");
+        Debug.Log("Disconnected from server.");
+        onDisconnect();
     }
 
     public void Disconnect()
@@ -109,7 +117,6 @@ public class CustomNetworkManager : NetworkManager
         {
             Debug.Log("Disconnecting client.");
             StopClient();
-            
         }
 
         if (numPlayers < maxPlayers)

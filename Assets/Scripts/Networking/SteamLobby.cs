@@ -132,7 +132,6 @@ public class SteamLobby : MonoBehaviour
         isLobbyFull = false;
 
         NetworkManager.Disconnect();
-        MainMenu.instance.TR_LobbyMain_to_LobbySearch();
     }
 
     public ulong GetLobbyID() { return currentLobbyID; }
