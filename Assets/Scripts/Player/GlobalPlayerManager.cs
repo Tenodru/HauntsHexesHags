@@ -53,6 +53,11 @@ public class GlobalPlayerManager : NetworkBehaviour
             if (UpdatePlayerListSteamIDs(steamUserUpdateList[0])) { steamUserUpdateList.RemoveAt(0); }
         }
         */
+
+        if (Input.GetKeyDown(KeyCode.RightBracket))
+        {
+            RpcClientAddPlayer(1, 1, 129389213);
+        }
     }
 
     [Command(requiresAuthority = false)]
