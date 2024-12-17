@@ -5,7 +5,21 @@ using UnityEngine;
 
 public class PlayerNetworkedData : NetworkBehaviour
 {
-    public readonly SyncList<Player> playerList = new SyncList<Player>();
+    public static PlayerNetworkedData instance;
+
+    public List<Player> playerList;
+
+    private void Awake()
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            instance = this;
+        }
+    }
 
     private void Start()
     {
@@ -20,11 +34,31 @@ public class PlayerNetworkedData : NetworkBehaviour
         try
         {
             Debug.Log("Adding player to networked data.");
-            playerList.Add(playerToAdd);
+            if (!playerList.Contains(playerToAdd))
+            {
+                playerList.Add(playerToAdd);
+            }
         }
         catch
         {
             Debug.Log("Failed to add Player to PlayerList");
+        }
+    }
+
+    [ClientRpc]
+    public void ClientAddPlayer(Player playerToAdd)
+    {
+        try
+        {
+            Debug.Log("Adding player to client networked data.");
+            if (!playerList.Contains(playerToAdd))
+            {
+                playerList.Add(playerToAdd);
+            }
+        }
+        catch
+        {
+            Debug.Log("Failed to add Player to Client PlayerList");
         }
     }
 

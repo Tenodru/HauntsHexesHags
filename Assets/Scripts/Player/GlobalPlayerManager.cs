@@ -118,6 +118,7 @@ public class GlobalPlayerManager : NetworkBehaviour
     public void ClientAddPlayerToList(Player player)
     {
         Debug.Log("<color=orange>GPM - Adding player to playerList from server.</color>");
+        PlayerNetworkedData.instance.ClientAddPlayer(player);
         playerList.Add(player);
     }
 
