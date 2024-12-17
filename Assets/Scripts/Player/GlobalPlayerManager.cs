@@ -111,7 +111,7 @@ public class GlobalPlayerManager : NetworkBehaviour
         foreach (Player player in playerList)
         {
             Debug.Log("<color=orange>GPM - Adding player to playerList from server.</color>");
-            PlayerNetworkedData.instance.RpcClientAddPlayer(player);
+            PlayerNetworkedData.instance.RpcClientAddPlayer(player.playerID, player.connectionID, player.playerSteamID);
         }
     }
 

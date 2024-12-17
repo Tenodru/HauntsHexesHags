@@ -46,11 +46,12 @@ public class PlayerNetworkedData : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void RpcClientAddPlayer(Player playerToAdd)
+    public void RpcClientAddPlayer(int playerID, int playerConnID, ulong playerSteamID)
     {
         try
         {
             Debug.Log("Adding player to client networked data.");
+            Player playerToAdd = new Player(playerID, playerConnID, playerSteamID);
             if (!playerList.Contains(playerToAdd))
             {
                 playerList.Add(playerToAdd);
