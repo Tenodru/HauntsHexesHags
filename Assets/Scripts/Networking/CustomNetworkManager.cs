@@ -144,6 +144,12 @@ public class CustomNetworkManager : NetworkManager
 
         GlobalPlayerManager.lastPlayerID = 0;
     }
+
+    public void ClientReady()
+    {
+        Debug.Log("<color=orange>CNM - Setting client to ready.</color>");
+        NetworkClient.Ready();
+    }
 }
 
 public enum NetworkState
