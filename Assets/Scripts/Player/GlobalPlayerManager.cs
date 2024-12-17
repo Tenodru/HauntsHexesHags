@@ -110,16 +110,9 @@ public class GlobalPlayerManager : NetworkBehaviour
         Debug.Log("<color=orange>GPM - Updating client player list.</color>");
         foreach (Player player in playerList)
         {
-            ClientAddPlayerToList(player);
+            Debug.Log("<color=orange>GPM - Adding player to playerList from server.</color>");
+            PlayerNetworkedData.instance.RpcClientAddPlayer(player);
         }
-    }
-
-    [ClientRpc]
-    public void ClientAddPlayerToList(Player player)
-    {
-        Debug.Log("<color=orange>GPM - Adding player to playerList from server.</color>");
-        PlayerNetworkedData.instance.ClientAddPlayer(player);
-        playerList.Add(player);
     }
 
 

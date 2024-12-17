@@ -46,7 +46,7 @@ public class PlayerNetworkedData : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void ClientAddPlayer(Player playerToAdd)
+    public void RpcClientAddPlayer(Player playerToAdd)
     {
         try
         {
