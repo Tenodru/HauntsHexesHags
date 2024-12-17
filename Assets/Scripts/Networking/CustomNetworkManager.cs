@@ -115,6 +115,8 @@ public class CustomNetworkManager : NetworkManager
         base.OnClientConnect();
         Debug.Log("<color=orange>CNM - Connected to server.</color>");
         onConnect();
+
+        ClientReady();
     }
 
     public override void OnClientDisconnect()

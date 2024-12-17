@@ -108,7 +108,6 @@ public class SteamLobby : MonoBehaviour
         NetworkManager.networkAddress = SteamMatchmaking.GetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), HostAddressKey);
         NetworkManager.StartClient();
         NetworkManager.networkState = NetworkState.Client;
-        NetworkManager.ClientReady();
 
         //MainMenu.instance.EnterLobbyScreen();
 
