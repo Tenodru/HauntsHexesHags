@@ -91,6 +91,11 @@ public class CustomNetworkManager : NetworkManager
     {
         //base.OnServerAddPlayer(conn);
 
+        AddPlayer(conn);
+    }
+
+    public void AddPlayer(NetworkConnectionToClient conn)
+    {
         Debug.Log("Adding Player Object!");
         Debug.Log("numPlayers: " + numPlayers);
 
@@ -114,7 +119,6 @@ public class CustomNetworkManager : NetworkManager
     {
         base.OnClientConnect();
         Debug.Log("<color=orange>CNM - Connected to server.</color>");
-        Debug.Log("<color=orange>CNM - Client Connection ID: </color>" + NetworkClient.connection.connectionId);
         onConnect();
     }
 
@@ -144,12 +148,6 @@ public class CustomNetworkManager : NetworkManager
         }
 
         GlobalPlayerManager.lastPlayerID = 0;
-    }
-
-    public void ClientReady()
-    {
-        Debug.Log("<color=orange>CNM - Setting client to ready.</color>");
-        NetworkClient.Ready();
     }
 }
 

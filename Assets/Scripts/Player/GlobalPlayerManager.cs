@@ -62,6 +62,7 @@ public class GlobalPlayerManager : NetworkBehaviour
         {
             Debug.Log("Adding player!");
             playerList.Add(playerToAdd);
+            UpdateClientPlayerLists();
             onPlayerListUpdate();
             onPlayerAdded(playerToAdd);
             onPlayerAddedBySteamID(playerToAdd.playerSteamID);
@@ -101,6 +102,23 @@ public class GlobalPlayerManager : NetworkBehaviour
             Debug.Log("Could not clear networked list.");
         }
         
+    }
+
+
+    public void UpdateClientPlayerLists()
+    {
+        Debug.Log("<color=orange>GPM - Updating client player list.</color>");
+        foreach (Player player in playerList)
+        {
+            ClientAddPlayerToList(player);
+        }
+    }
+
+    [ClientRpc]
+    public void ClientAddPlayerToList(Player player)
+    {
+        Debug.Log("<color=orange>GPM - Adding player to playerList from server.</color>");
+        playerList.Add(player);
     }
 
 
