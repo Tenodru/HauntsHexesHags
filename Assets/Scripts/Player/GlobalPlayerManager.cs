@@ -56,10 +56,16 @@ public class GlobalPlayerManager : NetworkBehaviour
 
         if (Input.GetKeyDown(KeyCode.RightBracket))
         {
-            RpcClientAddPlayer(1, 1, 129389213);
+            Debug.Log("<color=orange>GPM - TEST BUTTON PRESSED.</color>");
+            RPCTEST();
+            //RpcClientAddPlayer(1, 1, 129389213);
         }
     }
 
+    /// <summary>
+    /// Adds a player to the playerList.
+    /// </summary>
+    /// <param name="playerToAdd"></param>
     [Command(requiresAuthority = false)]
     public void AddPlayer(Player playerToAdd)
     {
@@ -68,6 +74,7 @@ public class GlobalPlayerManager : NetworkBehaviour
             Debug.Log("Adding player!");
             playerList.Add(playerToAdd);
             UpdateClientPlayerLists();
+
             onPlayerListUpdate();
             onPlayerAdded(playerToAdd);
             onPlayerAddedBySteamID(playerToAdd.playerSteamID);
@@ -78,16 +85,23 @@ public class GlobalPlayerManager : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Removes a player with the specified connection ID from the playerList.
+    /// </summary>
+    /// <param name="connID"></param>
     public void RemovePlayer(int connID)
     {
         try
         {
             Debug.Log("Removing player!");
             Player playerToRemove = playerList.Find(player => player.connectionID == connID);
+
             onPlayerRemoved(playerToRemove);
             Debug.Log("PLAYER: " + playerToRemove.connectionID);
             onPlayerRemovedBySteamID(playerToRemove.playerSteamID);
+
             playerList.RemoveAll(player => player.connectionID == connID);
+
             onPlayerListUpdate();
         } catch
         {
@@ -96,6 +110,9 @@ public class GlobalPlayerManager : NetworkBehaviour
         
     }
 
+    /// <summary>
+    /// Clears the playerList.
+    /// </summary>
     public void ClearPlayerList()
     {
         playerList.Clear();
@@ -109,15 +126,23 @@ public class GlobalPlayerManager : NetworkBehaviour
         
     }
 
-
     public void UpdateClientPlayerLists()
     {
         Debug.Log("<color=orange>GPM - Updating client player list.</color>");
+        if (isServer) { Debug.Log("<color=green>GPM - SERVER</color>"); }
+        if (!isServer) { Debug.Log("<color=green>GPM - NOT SERVER</color>"); }
+        RPCTEST();
         foreach (Player player in playerList)
         {
             Debug.Log("<color=orange>GPM - Adding player to playerList from server.</color>");
             RpcClientAddPlayer(player.playerID, player.connectionID, player.playerSteamID);
         }
+    }
+
+    [ClientRpc]
+    public void RPCTEST()
+    {
+        Debug.Log("<color=green>GPM - REEEEEEEE.</color>");
     }
 
     [ClientRpc]
