@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class PlayerSelectScreen : MonoBehaviour
 {
+
     public void SelectCharacter(PlayerCharacterData charData)
     {
-        LocalPlayerManager.instance.localPlayer.ChangePlayerCharacter(charData.character);
+        LocalPlayerManager.instance.SelectCharacter(charData);
+
         this.gameObject.SetActive(false);
     }
 }

@@ -20,7 +20,6 @@ public class RPCTester : NetworkBehaviour
     public void RPCTEST()
     {
         Debug.Log("<color=green>RPCTester - REEEEEEEE.</color>");
-
     }
 
     public void TEST_GrabPlayerList()
